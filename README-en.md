@@ -229,7 +229,7 @@ Configure the project for web development use.
 After a few seconds, you should have a preview available.
 
 <div align="center"> 
-<img src="ressources/fbs_preview.JPG" alt="preview" width="75%" />
+<img src="ressources/fbs_filled_nix.JPG" alt="preview" width="75%" />
 </div>
 
 But there's nothing in it because we haven't added any content to our index.html. That's the next step!
@@ -240,7 +240,7 @@ But there's nothing in it because we haven't added any content to our index.html
 We are going to replace the content of the index.html file (which only contained the word "hello") with code that configures our augmented reality experience.
 
 <div align="center"> 
-<img src="ressources/fbs_index_html.JPG" alt="index.html file creation" width="75%" />
+<img src="ressources/fbs_create_html.JPG" alt="index.html file creation" width="75%" />
 </div>
 
 Replace the entire content of the file with the code below:
@@ -404,155 +404,144 @@ This creates a simple but functional AR experience where digital content (the te
 
 That's it! Our application is functional.
 
-For a 3D object model rendering test, you can replace the content with:
-
-```html
-<!doctype html>
-<html>
-
-<head>
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js">
-
-    </script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js">
-
-    </script>
-   
-</head>
-
-
-<body style="margin : 0px; overflow: hidden;">
-    <a-scene embedded
-        arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best ; changeMatrixMode: modelViewMatrix;"
-        vr-mode-ui="enabled: false"
-        renderer="sortObjects: true; antialias: true; colorManagement: true; physicallyCorrectLights; logarithmicDepthBuffer: true;"
-        smooth=" true" smoothCount="5" smoothTolerance=".05" smoothThreshold="5" sourceWidth="800" sourceHeight="600"
-        displayWidth="1280" displayHeight="720">
-
-        <a-assets>
-            <a-asset-item id="glbTest" src="https://github.com/b2renger/microprojetar/raw/refs/heads/main/assets/plant_modelling.glb"></a-asset-item>
-          </a-assets>
-
-
-        <a-marker type='barcode' value='2'>
-            <a-entity scale=".2 .2 .2" gltf-model="#glbTest"></a-entity>
-        </a-marker>
-
-        <a-entity camera></a-entity>
-
-    </a-scene>
-
-
-</body>
-
-</html>
-```
-
-This displays a 3D plant model instead of text.
-
 Now we need to test our application.
 
-To test, we will need to print barcodes. You can print them by accessing this link: [barcode markers](https://jeromeetienne.github.io/AR.js/data/images/)
+
+- Save changes: Save your index.html file.
+
+- Test your project: Display the web preview of your project.
+
+To open your app's preview, search for "web" in the palette to find "Show Web Preview". (Reminder: the palette is `Ctrl/Cmd + Shift + P`).
 
 <div align="center"> 
-<img src="ressources/barcodes.JPG" alt="marker barcodes" width="75%" />
+  <img src="ressources/fbs_show_web.JPG" alt="command palette" width="100%" />
 </div>
 
-Print the barcodes for the values 0 and 2.
-
-Now you can test your application by accessing the preview of your project by clicking on the preview (top right of Firebase Studio).
-
-A window with your application will open, you will need to authorize the use of the camera. Then point your camera at the printed barcodes!
+You can then view your page in full screen mode by clicking on the small icon in the top right-hand corner.
 
 <div align="center"> 
-<img src="ressources/preview_phone.JPG" alt="preview on phone" width="75%" />
+  <img src="ressources/fbs_open_full.JPG" alt="command palette" width="75%" />
 </div>
 
-You can also test directly on your phone by scanning the QR code that appears at the bottom left of the preview window. This QR code contains the address to access your application.
+This will open your experience in a new tab on your computer. At this point you should see: a web page showing you!
 
-Your phone will connect to the same application via the web!
+If you show the marker to the camera you should see this:
+
+<div align="center"> 
+  <img src="ressources/Capture_final_product_v1.png" alt="command palette" width="75%" />
+</div>
+
+Your project now works in the editor and with your computer's camera.
+
+Now you can test it on your smartphone. Simply go to the page you've just opened.
+
+To do this, click on the "link" icon in the top right-hand corner to open in a new window. Scan the qr code and the page will be loaded onto your phone.
+
+<div align="center"> 
+  <img src="ressources/fbs_qr_of_page.JPG" alt="command palette" width="75%" />
+</div>
+
+  
+You can then repeat these operations, changing the code, saving and refreshing the page. 
+
+For example, try changing the text, its color, size, position etc.
 
 # Step 7: Publish the application
 
-To publish, there are several steps, and it's actually very simple.
+Committing changes: Use Firebase Studio's versioning tools to commit your changes and push them to your GitHub repository.
 
-We must first tell Firebase that we have made changes and that we want them to be saved to our Github repository. This is done via git and we will "commit" and "push" the changes.
-
-This is done simply by going to the "Source Control" menu.
-
-<div align="center"> 
-<img src="ressources/fbs_commit.JPG" alt="commit in Firebase Studio" width="75%" />
-</div>
-
-Add a message describing what you've just done and click the commit button.
-
-<div align="center"> 
-<img src="ressources/fbs_commit_message.JPG" alt="commit with message in Firebase Studio" width="75%" />
-</div>
-
-Then click the "Sync Changes" button to send these changes to Github.
-
-<div align="center"> 
-<img src="ressources/fbs_sync.JPG" alt="sync in Firebase Studio" width="75%" />
-</div>
-
-Now if you go back to your github repository and wait a few minutes, you should see that your files have been updated, and in the top right part of the github page you will see a green checkmark indicating that your site has been updated!
-
-<div align="center"> 
-<img src="ressources/Capture_github_settings_pages_done.png" alt="gh-pages settings done" width="75%" />
-</div>
-
-Your application is now accessible to everyone at the address:
-
-https://*[your-username]*.github.io/*[your-repo]*
-
-You can therefore send this link to anyone and they will be able to test your creation!
-
-#  Step 8: Encode the RFID sticker
-
-We can add an RFID sticker to our keychain so that when someone approaches their phone to the keychain, it automatically opens our application.
-
-For this we will use the NFC Tools application, available on Android and iOS:
-- [Android](https://play.google.com/store/apps/details?id=com.wakdev.wdnfc&hl=en&gl=US)
-- [iOS](https://apps.apple.com/us/app/nfc-tools/id1252962749)
-
-Install the application and then:
-- click on "Write"
-- then on "Add a record"
-- Choose "URL / URI"
-- Copy and paste the link to your project
-- Then "OK"
-- Then "Write / XX Bytes" (number may vary)
-- Then approach the keychain (the round sticker side) to the back of your phone and wait for the vibration.
-
+- Click on the Firebase Studio source control button
   <div align="center"> 
-  <img src="ressources/nfc1.png" alt="nfc steps" width="19%" height="400"/>
-  <img src="ressources/nfc2.png" alt="nfc steps" width="19%" height="400"/>
-  <img src="ressources/nfc3.png" alt="nfc steps" width="19%" height="400"/>
-  <img src="ressources/nfc4.png" alt="nfc steps" width="19%" height="400"/>
-  <img src="ressources/nfc5.png" alt="nfc steps" width="19%" height="400"/>
+  <img src="ressources/fbs_git.JPG" alt="" width="10%" />
   </div>
 
-That should be it!
+- Storing changes by clicking on the "+" button
+  <div align="center"> 
+  <img src="ressources/fbs_stage_all.JPG" alt="" width="75%"/>
+  </div>
+
+- Add a message explaining the changes** !
+! this is mandatory!
+- Commit' the changes by clicking on the 'commit' button
+  <div align="center"> 
+  <img src="ressources/fbs_commit.JPG" alt=" " width="75%"/>
+  </div>
+
+- Synchronize changes by clicking on the 'commit' button
+  <div align="center"> 
+  <img src="ressources/fbs_publish.JPG" alt=" " width="75%"/>
+  </div>
+
+<div align="center"> 
+  <img src="ressources/gh_oauth1.JPG" alt=" " width="75%"/>
+  <img src="ressources/gh_oauth2.JPG" alt=" " width="75%"/>
+  <img src="ressources/gh_oauth3.JPG" alt=" " width="75%"/>
+  <img src="ressources/gh_oauth4.JPG" alt=" " width="75%"/>
+  <img src="ressources/gh_oauth5.JPG" alt=" " width="75%"/>
+  <img src="ressources/gh_oauth6.JPG" alt=" " width="75%"/>
+  <img src="ressources/gh_oauth6.JPG" alt=" " width="75%"/>
+</div>
+
+This last operation will send your changes to your github repository and update the page.
+
+**Your experiment is now deployed at:** *https://[your-user-name].github.io/[your-depot]*
+
+**✨ Congratulations! ✨** You've created your first AR application. Now you can customize your app by modifying the text, adding 3D models, and experimenting with different A-Frame and AR.js features.
+
+Note: This tutorial is a basic introduction. To deepen your knowledge, please consult the official A-Frame and AR.js documentation.
+
+
+ # Step 8: Encode the RFID sticker
+
+Our goal is to program our RFID sticker so that when we approach our phone, it will offer to open the web page hosting our project.
+
+To do this, we're going to use NFCTools, which is free and available for [Android](https://play.google.com/store/apps/details?id=com.wakdev.wdnfc&hl=fr) or [iOS](https://apps.apple.com/fr/app/nfc-tools/id1252962749)?
+
+- Choose the "Write" tab and select "Add a record".
+  <div align="center"> 
+  <img src="ressources/NFCTools_ecrire.png" alt=" " width="75%"/>
+  </div>
+- Select "URL/URI
+  <div align="center"> 
+  <img src="ressources/NFCTools_ajout.png" alt=" " width="75%"/>
+  </div>
+- Enter the address of your page then validate
+  <div align="center"> 
+  <img src="ressources/NFCTools_url+gh_pages.png" alt=" " width="75%"/>
+  </div>
+- You can now click on the "Write" button below the "More options" field.
+  <div align="center"> 
+  <img src="ressources/NFCTools_enregistrer.png" alt=" " width="75%"/>
+  </div>
+- You should see this screen asking you to move your smartphone closer to the sticker.
+  <div align="center"> 
+  <img src="ressources/NFCTools_approcher.png" alt=" " width="75%"/>
+  </div>
+- Once you've successfully detected your sticker, you should be able to write it.
+  <div align="center"> 
+  <img src="ressources/NFCTools_valider.png" alt=" " width="75%"/>
+  </div>
+
+It should be OK!
 You can close NFCTools and test!
 
 
 
-# Going further...
+# To go further ...
 
-A complete course in English is available on [the ateliernum site](http://ateliernum.github.io) at this address: https://github.com/b2renger/Introduction_A-frame#introduction_a-frame
+An entire course in English is available on [the ateliernum website](http://ateliernum.github.io) at this address: https://github.com/b2renger/Introduction_A-frame#introduction_a-frame
 
-Customize the appearance: Add other elements, modify colors, sizes and positions of elements.
+Customize appearance: Add more elements, change colors, sizes and positions of elements.
 
 Add 3D models: Import 3D models into your scene.
 
-Use other types of markers: Explore different types of AR markers.
+Use other marker types: Explore the different types of AR markers.
 
 Create interactions: Add events and interactions to your application.
 
-But if you got here quickly you deserve a little help with templates to add an image, a 3D model or a video.
+But if you've got here fast, you deserve a little help with templates for adding an image, 3D model or video.
 
-## Loading assets
+## Upload assets
 
 You can download a zip with: an image, a 3D model and a video [at this address](https://github.com/b2renger/microprojetar/releases/download/v1.1/assets.zip).
 
@@ -560,45 +549,57 @@ You can download a zip with: an image, a 3D model and a video [at this address](
 
 ### Asset formats
 
-Assets are files that can be used in your application, these can be: images, 3D models, sounds, videos.
+Assets are files that can be used in your application, such as images, 3D models, sounds and videos.
 
-We are in a web context so these files need to be lightweight to load quickly and optimized.
-- plan for images and videos in a maximum resolution of 1920x1080 pixels
-  - for videos encoded in H.264 and in mp4 format
-  - for images in png or jpeg format.
+In a web context, these files need to be light enough to load quickly, and optimized.
+- images and videos should have a maximum resolution of 1920x1080 pixels 
+  - videos encoded in H.264 and mp4 format
+  - images in png or jpeg format.
 
-- for 3D this will be 3D models in glb format (the web format), exportable from blender.
+- 3D models should be in glb format (the web format), exportable from blender.
 
-Your files should not be larger than 5MB (even though for an image that's already huge).
+Your files must be no larger than 5mo (although for an image this is already enormous).
 
 You can find an asset pack at this address:
+https://github.com/b2renger/microprojetar/releases/download/v1.1/assets.zip
 
-### Adding files in firebase
 
-It's good practice to put our asset files in a separate folder.
 
-We will therefore create an 'assets' folder in firebase. It's the same thing as when we created a folder for our configuration file.
+### Adding files to firebase
+
+It's good practice to put our assets files in a separate folder. 
+
+So we're going to create an 'assets' folder in firebase. It's the same as when we created a folder for our configuration file.
 <div align="center"> 
   <img src="ressources/assets_create_folder.png" alt=" " width="75%"/>
 </div>
 
-Then we can click and drag our files to upload them to the assets folder.
+You can then move files into this new folder - avoid using accents, spaces and special characters in file names.
 
 <div align="center"> 
-  <img src="ressources/assets_upload.png" alt=" " width="75%"/>
+  <img src="ressources/assets_drag.png " alt=" " width="75%"/>
 </div>
 
-### Loading them in our scene
+If you have imported all the assets in the zip file, it should look like this
 
-Each file type has a different loading mode. This is done between the <a-scene> ... and </a-scene> tags
+<div align="center"> 
+  <img src="ressources/assets_ok.png " alt=" " width="75%"/>
+</div>
 
-Note that you must adapt these new elements to the name of our files
+Now it's time to load the files into our A-Frame scene.
 
-- In the "src" parameter, we load the file named "filename.png" which is stored in the asset folder.
-- In the id parameter we choose an alias that will allow us to reference this file without having to retype its name.
+### Loading them into our scene
 
-For images:
+Each file type has a different loading mode. This is done between the <a-scene> ... and </a-scene> tags.
+
+Please note that we need to adapt these new elements to our file names
+
+- In the "src" parameter, we load the file named "file_name.png" which is stored in the asset folder.
+- In the id parameter we choose an alias that will allow us to refer to this file without having to retype its name.
+
+For images :
 We load the file logo_ecole_1_coul_defonce_noir.png which is stored in the asset folder.
+
 ```html
 <a-assets>
   <img id="img1" src="./assets/logo_ecole_1_coul_defonce_noir.png">
@@ -606,34 +607,38 @@ We load the file logo_ecole_1_coul_defonce_noir.png which is stored in the asset
 
 ```
 
-For 3D models:
-We load the file plant_modelling.glb which is stored in the asset folder.
+For 3D models :
+We load the plant_modelling.glb file, which is stored in the asset folder.
 ```html
 <a-assets>
-  <a-asset-item id="glb1" src="./assets/plant_modelling.glb"></a-asset-item>
+  <a-asset-item id="glbTest" src="./assets/plant_modelling.glb"></a-asset-item>
+</a-assets>
+
+```
+
+For videos :
+We load the video file stored in the asset folder.
+```html
+ <a-assets>
+      <!--point to you *mp4 file : h264, AAC etc-->
+      <video src="./assets/video.mp4" muted="true" loop="true" controls="false" playsinline webkit-playsinline
+        type='video/mp4' id="vid"></video>
 </a-assets>
 ```
 
-For videos:
-We load the file video.mp4 which is stored in the asset folder.
-```html
-<a-assets>
-  <video id="vid" src="assets/video.mp4" autoplay="true" loop="true" preload="auto" controls="true" muted="true" playsinline="" webkit-playsinline=""></video>
-</a-assets>
-```
 
 ## Code examples
-The examples provided below are complete and functional, you can copy/paste them directly into your index.html file
+The examples below are complete and functional, so you can copy and paste them directly into your index.html file.
 
 ### Images
-You will need to adapt the "width" and "height" of the image according to the aspect ratio of your image so that it is not distorted.
+You'll need to adjust the "width" and "height" of the image according to the aspect ratio of your image so that it doesn't become distorted.
 
 ```html
 <!DOCTYPE html>
 <html>
 
 <head>
-  <title>My first AR app</title>
+  <title>Ma première app AR</title>
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
@@ -662,14 +667,14 @@ You will need to adapt the "width" and "height" of the image according to the as
 ```
 
 ### 3D
-Remember to adapt the scale parameter according to the export units of your model.
+Remember to adapt the scale parameter to your model's export units.
 
 ```html
 <!DOCTYPE html>
 <html>
 
 <head>
-  <title>My first AR app</title>
+  <title>Ma première app AR</title>
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
@@ -682,12 +687,14 @@ Remember to adapt the scale parameter according to the export units of your mode
     sourceWidth="800" sourceHeight="600" displayWidth="1280" displayHeight="720">
 
     <a-assets>
-      <a-asset-item id="glb1" src="./assets/plant_modelling.glb"></a-asset-item>
+      <a-asset-item id="model" src="./assets/plant_modelling.glb"></a-asset-item>
     </a-assets>
 
 
     <a-marker type='barcode' value='0'>
-      <a-entity scale=".2 .2 .2" gltf-model="#glb1"></a-entity>
+  
+        <a-entity scale=".1 .1 .1" gltf-model="#model"></a-entity>
+      
     </a-marker>
 
     <a-entity camera></a-entity>
@@ -695,39 +702,79 @@ Remember to adapt the scale parameter according to the export units of your mode
 </body>
 
 </html>
-```
+``` 
 
-### Video (the most complicated)
-For video this is more complex because we need to handle the play/pause of the video when the marker appears or disappears from the camera field of view.
+### Vidéo (le plus compliqué)
+In this very complex example, we add a javascript script to the head of the page.
+
+This script manages the automatic playback of the video when the marker is detected. However, it doesn't work every time (we're talking about Safari and iOS here...).
+
+It also allows you to create a chromakey, i.e. to make a color transparent (a green background, for example ;))
+
+In short, there's a lot of code to start with!
+
+Just remember to change file names and ids to match your files.
+
+
+
+<div align="center"> 
+  <img src="ressources/video_change_name.png " alt=" " width="100%"/>
+</div>
+
+You'll also need to think about the ratio aspect, as with images, using the element's 'width' and 'height' parameters.
 
 ```html
 <!DOCTYPE html>
 <html>
 
 <head>
-  <title>My first AR app</title>
+  <title>Ma première app AR</title>
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-
-  <script>
+  <script defer>
+    // https://github.com/nikolaiwarner/aframe-chromakey-material
     AFRAME.registerShader("chromakey", {
       schema: {
         src: { type: "map" },
-        color: { type: "color", default: "green" },
-        transparent: { type: "boolean", default: false },
+        color: {
+          default: { x: 0.0, y: 1.0, z: 0.0 },
+          type: "vec3",
+          is: "uniform",
+        },
+        chroma: { type: "bool", is: "uniform" },
+        transparent: { default: true, is: "uniform" },
       },
 
       init: function (data) {
+        const videoEl = data.src;
+        document.addEventListener("click", () => {
+          videoEl.play();
+          const entity = document.querySelector("[sound]");
+          // console.log(entity)
+          // console.log(document.querySelector("#debug-marker"))
+          entity.components.sound.playSound();
+        });
+
         var videoTexture = new THREE.VideoTexture(data.src);
         videoTexture.minFilter = THREE.LinearFilter;
         this.material = new THREE.ShaderMaterial({
           uniforms: {
-            myTexture: { value: videoTexture },
-            color: { value: new THREE.Color(data.color) },
-            chroma: { value: data.transparent },
+            chroma: {
+              type: "b",
+              value: data.chroma,
+            },
+            color: {
+              type: "c",
+              value: data.color,
+            },
+            myTexture: {
+              type: "t",
+              value: videoTexture,
+            },
           },
           vertexShader: `
             varying vec2 vUv;
+
             void main(void)
             {
               vUv = uv;

@@ -404,7 +404,7 @@ Dans la partie ```<body>```, et c'est ici que tout ce joue pour le contenu visib
     <!-- ajouter du contenu qui sera visible par l'utilisateur et donc ancré sur notre marqueur -->
   </a-marker>
   ```
-  Ici la valeur 2 correspond à un motif précis qui a été prédécoupé pour vous à la [découpeuse de stickers](https://github.com/LucieMrc/SilhouetteCameo_2spi). Avec la technique que nous utilisons [il existe 64 motifs différents](https://github.com/b2renger/Introduction_A-frame/blob/main/markers/barcodes/2.png) qui peuvent être détectés en même temps par arjs.
+  Ici la valeur 9 correspond à un motif précis qui a été prédécoupé pour vous à la [découpeuse de stickers](https://github.com/LucieMrc/SilhouetteCameo_2spi). Avec la technique que nous utilisons [il existe 64 motifs différents](https://github.com/b2renger/Introduction_A-frame/blob/main/markers/barcodes/2.png) qui peuvent être détectés en même temps par arjs.
 
 - Un texte : L'élément <a-text> crée un texte en 3D qui sera affiché au-dessus du marqueur. Le texte est "Hello !", de couleur rouge et centré.
   ```html
@@ -428,7 +428,7 @@ Dans la partie ```<body>```, et c'est ici que tout ce joue pour le contenu visib
 - Caméra : L'élément ```<a-entity camera>``` définit la caméra de la scène, le fonctionnement par défaut nous convient parfaitement, mais il est possible d'ajouter des fonctionalités comme par exemple l'interaction via l'orientation du regard ('gaze' interaction).
 
 
-En résumé, ce code crée une expérience de RA où un texte apparaît dans un esapce 3D lorsque le marqueur code-barres 2 est détecté par la caméra.
+En résumé, ce code crée une expérience de RA où un texte apparaît dans un esapce 3D lorsque le marqueur code-barres 0 est détecté par la caméra.
 
 
 
@@ -590,6 +590,7 @@ Nous sommes dans un contexte web du coup il faut que ces fichiers soient légers
 Vos fichiers ne doivent pas faire plus de 5mo (même si pour une image c'est déjà énorme).
 
 Vous pourrez trouver un pack d'asset à cette adresse :
+https://github.com/b2renger/microprojetar/releases/download/v1.1/assets.zip
 
 ### Ajouter des fichiers dans firebase
 

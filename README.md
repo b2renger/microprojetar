@@ -566,7 +566,13 @@ Utiliser d'autres types de marqueurs : Explorer les différents types de marqueu
 
 Créer des interactions : Ajouter des événements et des interactions à votre application.
 
+Mais si vous êtes arrivés ici vite vous méritez un peu d'aide avec des templates pour ajouter une image, un modèle 3D ou une vidéo.
+
 ## Charger des assets
+
+Vous pouvez télécharger un zip avec : une image, un modèle 3D et une vidéo [à cette adresse](https://github.com/b2renger/microprojetar/releases/download/v1.1/assets.zip).
+
+
 
 ### Les formats d'assets
 

@@ -565,3 +565,324 @@ Ajouter des modèles 3D : Importer des modèles 3D dans votre scène.
 Utiliser d'autres types de marqueurs : Explorer les différents types de marqueurs AR.
 
 Créer des interactions : Ajouter des événements et des interactions à votre application.
+
+## Charger des assets
+
+### Les formats d'assets
+
+Les assets sont des fichiers qui peuvent être utilisés dans votre application, cela peut-être : des images, des modèles 3D, des sons, des vidéos.
+
+Nous sommes dans un contexte web du coup il faut que ces fichiers soient légers pour ce charger vite et optimisés.
+- prévoyez des images et vidéos dans une résolution 1920x1080 pixels maximum 
+  - pour les vidéos encodés en H.264 et au format mp4
+  - pour les images au format png ou jpeg.
+
+- pour les 3D cela sera des modèles 3D au format glb (le format du web), exportable depuis blender.
+
+Vos fichiers ne doivent pas faire plus de 5mo (même si pour une image c'est déjà énorme).
+
+Vous pourrez trouver un pack d'asset à cette adresse :
+
+### Ajouter des fichiers dans firebase
+
+C'est une bonne pratique de mettre nos fichiers assets dans un dossier séparé. 
+
+Nous allons donc créer un dossier 'assets' dans firebase. C'est la même chose que lorsque nous avons créé un dossier pour notre fichier de configuration.
+<div align="center"> 
+  <img src="ressources/assets_create_folder.png" alt=" " width="75%"/>
+</div>
+
+Vous pouvez ensuite déplacer des fichiers dans ce nouveau dossier - évitez les accents, les espaces et les caractères spéciaux dans les noms de fichiers.
+
+<div align="center"> 
+  <img src="ressources/assets_drag.png " alt=" " width="75%"/>
+</div>
+
+Si vous avez importé tous les assets du fichiers zip, cela devrait ressembler à cela
+
+<div align="center"> 
+  <img src="ressources/assets_ok.png " alt=" " width="75%"/>
+</div>
+
+Maintenant il faut charger les fichiers dans notre scene A-Frame.
+
+### Les charger dans notre scène
+
+Chaque type de fichier a mode de chargement différent. Cela se fait entre les balises <a-scene> ... et </a-scene>
+
+Notez bien qu'il faut adapter ces nouveaux éléments au nom de nos fichiers
+
+- Dans le paramètre "src", nous chargeons le fichier nommé "nom_du_fichier.png" qui est rangé dans le dossier asset.
+- Dans le paramètre id nous choisissons un alias qui nous permettra de réferencer ce fichier sans avoir à retapper son nom.
+
+Pour les images  :
+Nous chargeons le fichier logo_ecole_1_coul_defonce_noir.png qui est rangé dans le dossier asset.
+```html
+<a-assets>
+  <img id="img1" src="./assets/logo_ecole_1_coul_defonce_noir.png">
+</a-assets> 
+
+```
+
+Pour les modèles 3D :
+Nous chargeons le fichier plant_modelling.glb qui est rangé dans le dossier asset.
+```html
+<a-assets>
+  <a-asset-item id="glbTest" src="./assets/plant_modelling.glb"></a-asset-item>
+</a-assets>
+
+```
+
+Pour les vidéos :
+Nous chargeons le fichier video qui est rangé dans le dossier asset.
+```html
+ <a-assets>
+      <!--point to you *mp4 file : h264, AAC etc-->
+      <video src="./assets/video" muted="true" loop="true" controls="false" playsinline webkit-playsinline
+        type='video/mp4' id="vid"></video>
+</a-assets>
+```
+
+
+## Exemples de code
+Les exemples fournis ci-dessous sont complets et fonctionnels, vous pouvez les copier / coller directement dans votre fichier index.html
+
+### Images
+Vous aurez besoin d'adapter la largeur "width" et la hauteur "height" de l'image selon l'aspect ratio de votre image pour qu'elle ne soit pas déformée.
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Ma première app AR</title>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+</head>
+
+<body>
+  <a-scene embedded
+    arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best ; changeMatrixMode: modelViewMatrix;"
+    renderer="sortObjects: true; antialias: true; colorManagement: true; logarithmicDepthBuffer: true;"
+    vr-mode-ui="enabled: false" smooth=" true" smoothCount="5" smoothTolerance=".05" smoothThreshold="5"
+    sourceWidth="800" sourceHeight="600" displayWidth="1280" displayHeight="720">
+
+    <a-assets>
+      <img id="img1" src="./assets/logo_ecole_1_coul_defonce_noir.png">
+    </a-assets>
+
+
+    <a-marker type='barcode' value='0'>
+      <a-image src="#img1" rotation="270 0 0" width="1" height="2"></a-image>
+    </a-marker>
+
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
+
+</html>
+```
+
+### 3D
+Pensez à adapter le paramètre scale en fonction des unités d'export de votre modèle.
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Ma première app AR</title>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+</head>
+
+<body>
+  <a-scene embedded
+    arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best ; changeMatrixMode: modelViewMatrix;"
+    renderer="sortObjects: true; antialias: true; colorManagement: true; logarithmicDepthBuffer: true;"
+    vr-mode-ui="enabled: false" smooth=" true" smoothCount="5" smoothTolerance=".05" smoothThreshold="5"
+    sourceWidth="800" sourceHeight="600" displayWidth="1280" displayHeight="720">
+
+    <a-assets>
+      <a-asset-item id="model" src="./assets/plant_modelling.glb"></a-asset-item>
+    </a-assets>
+
+
+    <a-marker type='barcode' value='0'>
+  
+        <a-entity scale=".1 .1 .1" gltf-model="#model"></a-entity>
+      
+    </a-marker>
+
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
+
+</html>
+``` 
+
+### Vidéo (le plus compliqué)
+Dans cet exemple très complexe, nous ajoutons un script javascript dans le head de la page.
+
+Ce script permet de gérer la lecture automatique de la vidéo, quand le marqueur est détecté. Malgré cela ne marche pas à tous les coups (on parle bien ici de Safari et iOS...)
+
+Il permet aussi de créer un chromakey, c'est à dire de rendre une couleur transparente (par exemple un fond vert, au hasard ;))
+
+Bref il y a beaucoup de code au début !
+
+Pensez quand même à changer les noms de fichiers et les ids pour qu'il correspondent à vos fichiers.
+
+<div align="center"> 
+  <img src="ressources/video_change_name.png " alt=" " width="100%"/>
+</div>
+
+Il faudra aussi penser à l'aspect ratio comme pour les images avec les paramètres 'width' et 'height' de l'élément.
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Ma première app AR</title>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script defer>
+    // https://github.com/nikolaiwarner/aframe-chromakey-material
+    AFRAME.registerShader("chromakey", {
+      schema: {
+        src: { type: "map" },
+        color: {
+          default: { x: 0.0, y: 1.0, z: 0.0 },
+          type: "vec3",
+          is: "uniform",
+        },
+        chroma: { type: "bool", is: "uniform" },
+        transparent: { default: true, is: "uniform" },
+      },
+
+      init: function (data) {
+        const videoEl = data.src;
+        document.addEventListener("click", () => {
+          videoEl.play();
+          const entity = document.querySelector("[sound]");
+          // console.log(entity)
+          // console.log(document.querySelector("#debug-marker"))
+          entity.components.sound.playSound();
+        });
+
+        var videoTexture = new THREE.VideoTexture(data.src);
+        videoTexture.minFilter = THREE.LinearFilter;
+        this.material = new THREE.ShaderMaterial({
+          uniforms: {
+            chroma: {
+              type: "b",
+              value: data.chroma,
+            },
+            color: {
+              type: "c",
+              value: data.color,
+            },
+            myTexture: {
+              type: "t",
+              value: videoTexture,
+            },
+          },
+          vertexShader: `
+            varying vec2 vUv;
+
+            void main(void)
+            {
+              vUv = uv;
+              vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+              gl_Position = projectionMatrix * mvPosition;
+            }
+          `,
+          fragmentShader: `
+              uniform sampler2D myTexture;
+              uniform vec3 color;
+              uniform bool chroma;
+              varying vec2 vUv;
+
+              void main(void)
+              {
+                vec3 tColor = texture2D( myTexture, vUv ).rgb;
+                float a;
+                if(chroma == true){
+                   a = (length(tColor - color) - 0.5) * 7.0;
+                }
+                else {
+                  a = 1.0;
+                }
+
+                gl_FragColor = vec4(tColor, a);
+              }
+            `,
+        });
+      },
+
+      update: function (data) {
+        this.material.color = data.color;
+        this.material.src = data.src;
+        this.material.transparent = data.transparent;
+      },
+    });
+
+    AFRAME.registerComponent("vidhandler", {
+      trackedElements: null,
+
+      init: function () {
+        this.trackedElements = document.querySelectorAll(
+          "a-marker[vidhandler]"
+        );
+       // console.log(this.trackedElements);
+      },
+      tick: function () {
+        // if(!userConsent){
+        //   return;
+        // }
+
+        this.trackedElements.forEach((marker) => {
+          if (marker.object3D.visible) {
+            const vid = document.querySelector(
+              marker.attributes.vidreference.value
+            );
+           // console.log(vid)        
+            if (vid.paused) {
+              vid.play();
+            }
+          } else {
+            const vid = document.querySelector(
+              marker.attributes.vidreference.value
+            );
+          }
+        });
+      },
+    });
+  </script>
+
+</head>
+
+<body>
+  <a-scene embedded
+    arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best ; changeMatrixMode: modelViewMatrix;"
+    renderer="sortObjects: true; antialias: true; colorManagement: true; logarithmicDepthBuffer: true;"
+    vr-mode-ui="enabled: false" smooth=" true" smoothCount="5" smoothTolerance=".05" smoothThreshold="5"
+    sourceWidth="800" sourceHeight="600" displayWidth="1280" displayHeight="720">
+
+    <a-assets>
+      <video id="vid" src="assets/video.mp4" autoplay="true" loop="true" preload="auto" controls="true"
+      muted="true" playsinline="" webkit-playsinline=""></video>
+    </a-assets>
+
+    <a-marker vidhandler vidreference="#vid" type="barcode" value="0">
+      <a-entity material="shader: chromakey; src: #vid; chroma:false; color: 0. 0. 0."
+        geometry="primitive: plane; width:  1.05; height:  1.05" position="0  0  0" rotation="270  0  0" side="double">
+      </a-entity>
+    </a-marker>
+
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
+
+</html>
+```

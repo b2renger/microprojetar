@@ -250,11 +250,11 @@ Replace the entire content of the file with the code below:
 <html>
 
 <head>
-    <title>My first AR app</title>
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js">
+    <title>MicroProjetAR</title>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js">
 
     </script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js">
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js">
 
     </script>
 

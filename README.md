@@ -470,7 +470,7 @@ En résumé, ce code crée une expérience de RA où un texte apparaît dans un 
   </div>
 
   
-Vous pouvez ensuite répéter ces opérations en changeant le code, sauvegardant et en actualisant la page. 
+Vous pouvez ensuite répéter ces opérations en changeant le code, et en actualisant la page. 
 
 Essayer par exemple de changer le texte, sa couleur, sa taille, sa position etc.
 

@@ -442,7 +442,7 @@ To do this, click on the "link" icon in the top right-hand corner to open in a n
 </div>
 
   
-You can then repeat these operations, changing the code, saving and refreshing the page. 
+You can then repeat these operations, changing the code, and refreshing the page. 
 
 For example, try changing the text, its color, size, position etc.
 

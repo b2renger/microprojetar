@@ -1,39 +1,152 @@
 <!doctype html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>03 — Images (Three.js)</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
+      }
+    </style>
 
-<head>
-    <title>MicroProjetAR</title>
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js">
-
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://esm.sh/three@0.178.0",
+          "three/addons/": "https://esm.sh/three@0.178.0/examples/jsm/"
+        }
+      }
     </script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js">
 
+    <!-- 8th Wall Engine -->
+    <script async src="../engine/xr.js" data-preload-chunks="slam"></script>
+  </head>
+  <body>
+    <canvas id="xr-canvas"></canvas>
+
+    <script type="module">
+      import * as THREE from "three";
+      import {
+        startXR8,
+        applyTargetPose,
+        XR83Image,
+      } from "./libs/xr8-three-bootstrap.js";
+
+      // all the shared loaders
+      // one for each asset type
+      const textureLoader = new THREE.TextureLoader();
+
+      // a Object<label, Promise<asset> || asset>
+      const assets = {
+        export1: textureLoader.loadAsync("../assets/export1.png"),
+      };
+
+      // the loading af all assets in "parrallel"
+      await Promise.all(
+        Object.entries(assets).map(async ([k, v]) => {
+          // is it then-able? i.e. is it a Promise?
+          // if so, await it
+          if (v.then) {
+            assets[k] = await v;
+          }
+        }),
+      ); // so now `assets` is a Object<label,asset>
+
+      const targets = [
+        {
+          name: "my-poster",
+          type: "PLANAR",
+          imagePath: "assets/Targets/Target_1000055040.jpg",
+          metadata: {
+            entity: new XR83Image(assets.export1),
+          },
+          properties: {
+            left: 0,
+            top: 0,
+            width: 830,
+            height: 830,
+            originalWidth: 830,
+            originalHeight: 830,
+            isRotated: false,
+          },
+        },
+        {
+          name: "cat-poster",
+          type: "PLANAR",
+          imagePath: "assets/Targets/Target_cat.jpg",
+          metadata: {
+            entity: new XR83Image(assets.export1),
+          },
+          properties: {
+            left: 0,
+            top: 0,
+            width: 830,
+            height: 830,
+            originalWidth: 830,
+            originalHeight: 830,
+            isRotated: false,
+          },
+        },
+      ];
+
+      // --- Start XR8 ---
+      // TODO move all the things below somewhere else to hide it, because it doesn't require change from the POV of the user of XR83
+      const { scene } = await startXR8({
+        canvas: document.getElementById("xr-canvas"),
+        imageTargets: targets,
+        onImageFound: (detail) => {
+          const preventDefault = detail.metadata.entity.onImageFound(detail);
+
+          if (!preventDefault && typeof preventDefault != "undefined") {
+            return;
+          }
+
+          // common part for every entity type
+          // TODO?
+        },
+        onImageUpdated: (detail) => {
+          const preventDefault = detail.metadata.entity.onImageUpdated(detail);
+
+          if (!preventDefault && typeof preventDefault != "undefined") {
+            return;
+          }
+
+          // common part for every entity type
+          // TODO?
+        },
+        onImageLost: (detail) => {
+          const preventDefault = detail.metadata.entity.onImageLost(detail);
+
+          if (!preventDefault && typeof preventDefault != "undefined") {
+            return;
+          }
+
+          // common part for every entity type
+          // TODO?
+        },
+      });
+
+      // just add all the targets to the scene
+      for (const target of targets) {
+        scene.add(target.metadata.entity);
+      }
     </script>
-
-</head>
-
-
-<body style="margin : 0px; overflow: hidden;">
-    <a-scene embedded
-        arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best ; changeMatrixMode: modelViewMatrix;"
-        vr-mode-ui="enabled: false"
-        renderer="sortObjects: true; antialias: true; colorManagement: true; physicallyCorrectLights; logarithmicDepthBuffer: true;"
-        smooth=" true" smoothCount="5" smoothTolerance=".05" smoothThreshold="5" sourceWidth="800" sourceHeight="600"
-        displayWidth="1280" displayHeight="720">
-
-
-
-        <a-marker type='barcode' value='0'>
-            <a-text value="Hello !" side="double" position="0 0 -1" rotation="270 0 0" width="8" color="red"
-                align="center">
-            </a-text>
-        </a-marker>
-
-        <a-entity camera></a-entity>
-
-    </a-scene>
-
-
-</body>
-
+  </body>
 </html>

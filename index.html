@@ -36,7 +36,7 @@
     </script>
 
     <!-- 8th Wall Engine -->
-    <script async src="../engine/xr.js" data-preload-chunks="slam"></script>
+    <script async src="engine/xr.js" data-preload-chunks="slam"></script>
   </head>
   <body>
     <canvas id="xr-canvas"></canvas>
@@ -55,7 +55,7 @@
 
       // a Object<label, Promise<asset> || asset>
       const assets = {
-        export1: textureLoader.loadAsync("../assets/export1.png"),
+        export1: textureLoader.loadAsync("./assets/export1.png"),
       };
 
       // the loading af all assets in "parrallel"

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>09 — Multi Image Targets (Three.js)</title>
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+    canvas { display: block; position: fixed; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+  </style>
+
+  <script type="importmap">
+  { "imports": {
+      "three": "https://esm.sh/three@0.178.0",
+      "three/addons/": "https://esm.sh/three@0.178.0/examples/jsm/"
+  } }
+  </script>
+
+  <!-- 8th Wall Engine -->
+  <script async src="../engine/xr.js" data-preload-chunks="slam"></script>
+</head>
+<body>
+  <canvas id="xr-canvas"></canvas>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { startXR8, applyTargetPose } from './lib/xr8-three-bootstrap.js';
+
+    // --- Helper: canvas-based text sprite ---
+    function makeLabel(text, color) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512; canvas.height = 128;
+      const ctx = canvas.getContext('2d');
+      ctx.font = 'bold 48px Arial';
+      ctx.fillStyle = color;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 256, 64);
+      const sprite = new THREE.Sprite(
+        new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(canvas), transparent: true })
+      );
+      sprite.scale.set(3, 0.75, 1);
+      return sprite;
+    }
+
+    // --- One group per target ---
+    const targetGroups = new Map();
+
+    // Target A — rotating red box
+    const groupA = new THREE.Group();
+    groupA.visible = false;
+    const boxA = new THREE.Mesh(
+      new THREE.BoxGeometry(0.8, 0.8, 0.8),
+      new THREE.MeshStandardMaterial({ color: 0xFF0055 })
+    );
+    boxA.position.set(0, 0.5, 0);
+    groupA.add(boxA);
+    const labelA = makeLabel('Target A', '#ff0000');
+    labelA.position.set(0, 0, 0);
+    groupA.add(labelA);
+    targetGroups.set('poster-a', groupA);
+
+    // Target B — bouncing blue sphere
+    const groupB = new THREE.Group();
+    groupB.visible = false;
+    const sphereB = new THREE.Mesh(
+      new THREE.SphereGeometry(0.4, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0x00AAFF })
+    );
+    sphereB.position.set(0, 0.5, 0);
+    groupB.add(sphereB);
+    const labelB = makeLabel('Target B', '#ff0000');
+    labelB.position.set(0, 0, 0);
+    groupB.add(labelB);
+    targetGroups.set('poster-b', groupB);
+
+    // Target C — pink sphere
+    const groupC = new THREE.Group();
+    groupC.visible = false;
+    const sphereC = new THREE.Mesh(
+      new THREE.SphereGeometry(0.4, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0xFFAAFF })
+    );
+    sphereC.position.set(0, 0.5, 0);
+    groupC.add(sphereC);
+    const labelC = makeLabel('Target C', '#ff0000');
+    labelC.position.set(0, 0, 0);
+    groupC.add(labelC);
+    targetGroups.set('poster-c', groupC);
+
+    // Target D — magenta sphere
+    const groupD = new THREE.Group();
+    groupD.visible = false;
+    const sphereD = new THREE.Mesh(
+      new THREE.SphereGeometry(0.4, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0xFF00AA })
+    );
+    sphereD.position.set(0, 0.5, 0);
+    groupD.add(sphereD);
+    const labelD = makeLabel('Target D', '#ff0000');
+    labelD.position.set(0, 0, 0);
+    groupD.add(labelD);
+    targetGroups.set('poster-d', groupD);
+
+    // Targets E, F, G — text-only labels
+    for (const [name, text] of [
+      ['poster-e', 'Wall Close'],
+      ['poster-f', 'Wall Large'],
+      ['poster-g', 'Wall Detail']
+    ]) {
+      const g = new THREE.Group();
+      g.visible = false;
+      const label = makeLabel(text, '#ff0000');
+      label.position.set(0, 0, 0);
+      g.add(label);
+      targetGroups.set(name, g);
+    }
+
+    // --- Image target config ---
+    const imageTargets = [
+      { name: 'poster-a', type: 'PLANAR', imagePath: '../assets/Targets/Target_1000055040.jpg',
+        properties: { left: 0, top: 0, width: 830, height: 830, originalWidth: 830, originalHeight: 830, isRotated: false } },
+      { name: 'poster-b', type: 'PLANAR', imagePath: '../assets/Targets/Target_cat.jpg',
+        properties: { left: 0, top: 0, width: 584, height: 937, originalWidth: 584, originalHeight: 937, isRotated: false } },
+      { name: 'poster-c', type: 'PLANAR', imagePath: '../assets/Targets/Target_drawing.jpg',
+        properties: { left: 0, top: 0, width: 800, height: 972, originalWidth: 800, originalHeight: 972, isRotated: false } },
+      { name: 'poster-d', type: 'PLANAR', imagePath: '../assets/Targets/Target_dragonfly.jpg',
+        properties: { left: 0, top: 0, width: 934, height: 754, originalWidth: 934, originalHeight: 754, isRotated: false } },
+      { name: 'poster-e', type: 'PLANAR', imagePath: '../assets/Targets/Target_wall_close.jpg',
+        properties: { left: 0, top: 0, width: 994, height: 768, originalWidth: 994, originalHeight: 768, isRotated: false } },
+      { name: 'poster-f', type: 'PLANAR', imagePath: '../assets/Targets/Target_wall_large.jpg',
+        properties: { left: 0, top: 0, width: 986, height: 563, originalWidth: 986, originalHeight: 563, isRotated: false } },
+      { name: 'poster-g', type: 'PLANAR', imagePath: '../assets/Targets/Target_wall_detail.jpg',
+        properties: { left: 0, top: 0, width: 524, height: 762, originalWidth: 524, originalHeight: 762, isRotated: false } },
+    ];
+
+    // --- Start XR8 ---
+    const { scene } = await startXR8({
+      canvas: document.getElementById('xr-canvas'),
+      imageTargets,
+      onImageFound: (detail) => {
+        const g = targetGroups.get(detail.name);
+        if (g) { applyTargetPose(g, detail); g.visible = true; }
+      },
+      onImageUpdated: (detail) => {
+        const g = targetGroups.get(detail.name);
+        if (g) applyTargetPose(g, detail);
+      },
+      onImageLost: (detail) => {
+        const g = targetGroups.get(detail.name);
+        if (g) g.visible = false;
+      },
+      onRenderLoop: () => {
+        const t = performance.now() * 0.001;
+        // Animate Target A box rotation
+        boxA.rotation.y = (t * Math.PI * 2) / 4;
+        // Animate Target B sphere bounce
+        sphereB.position.y = 0.5 + 0.25 * Math.sin(t * Math.PI / 0.75);
+        // Animate C & D bounces
+        sphereC.position.y = 0.5 + 0.25 * Math.sin(t * Math.PI / 0.75);
+        sphereD.position.y = 0.5 + 0.25 * Math.sin(t * Math.PI / 0.75);
+      }
+    });
+
+    // Add all groups to scene
+    for (const g of targetGroups.values()) {
+      scene.add(g);
+    }
+  </script>
+</body>
+</html>

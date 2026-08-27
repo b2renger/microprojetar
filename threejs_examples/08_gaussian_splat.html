@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>08 — Gaussian Splat (Three.js + Spark.js)</title>
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+    canvas { display: block; position: fixed; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+  </style>
+
+  <script type="importmap">
+  { "imports": {
+      "three": "https://esm.sh/three@0.178.0",
+      "three/addons/": "https://esm.sh/three@0.178.0/examples/jsm/",
+      "@sparkjsdev/spark": "https://esm.sh/@sparkjsdev/spark@0.1.10?external=three"
+  } }
+  </script>
+
+  <!-- 8th Wall Engine -->
+  <script async src="../engine/xr.js" data-preload-chunks="slam"></script>
+</head>
+<body>
+  <canvas id="xr-canvas"></canvas>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { SplatMesh } from '@sparkjsdev/spark';
+    import { startXR8, applyTargetPose } from './lib/xr8-three-bootstrap.js';
+
+    const group = new THREE.Group();
+    group.visible = false;
+
+    // --- Gaussian Splat via Spark.js ---
+    // Spark.js supports .sog, .splat, .ply, .spz, and .ksplat formats.
+    // With Three.js r178 this works natively — no polyfills needed.
+    const splat = new SplatMesh({ url: '../assets/flower_14p.sog' });
+    splat.position.set(0, 0.5, 0);
+    splat.scale.set(0.2, 0.2, 0.2);
+    splat.rotation.x = -Math.PI / 2;
+    group.add(splat);
+
+    // --- Start XR8 ---
+    const { scene } = await startXR8({
+      canvas: document.getElementById('xr-canvas'),
+      imageTargets: [{
+        name: 'my-poster',
+        type: 'PLANAR',
+        imagePath: '../assets/Targets/Target_1000055040.jpg',
+        properties: {
+          left: 0, top: 0,
+          width: 830, height: 830,
+          originalWidth: 830, originalHeight: 830,
+          isRotated: false
+        }
+      }],
+      onImageFound: (detail) => {
+        applyTargetPose(group, detail);
+        group.visible = true;
+      },
+      onImageUpdated: (detail) => {
+        applyTargetPose(group, detail);
+      },
+      onImageLost: () => {
+        group.visible = false;
+      }
+    });
+
+    scene.add(group);
+  </script>
+</body>
+</html>

@@ -10,7 +10,7 @@ https://github.com/user-attachments/assets/f4b1f979-b22c-443c-ae03-740b0111a7f0
 
 L'objectif est de voir ensemble toute la chaine technique qui permet à un projet d'exister en tant que page web. Nous verrons aussi comment écrire des informations sur des puces RFID.
 
-Nous utiliserons la version web de "8th Wall", un framework anciennement proprietaire pour créer des expériences AR.
+Nous utiliserons la version web de "8th Wall", un framework anciennement proprietaire, pour créer des expériences AR.
 
 Notre objectif sera d'afficher le texte "Hello" sur une image nous servant de point d'ancrage AR. Puis de customiser le contenu.
 
@@ -23,16 +23,16 @@ Ce petit projet comprend aussi la réalisation d'une "étiquette" / "porte clé"
 
 Nous allons utiliser différents outils gratuits :
 
-- github : pour versionner votre code et hébérger gratuitement votre projet.
-- Visual Studio Code : qui est un IDE (integrated development environment) qui permet d'écrire du code et qui se connecte à github pour hierarchiser les changements dans notre code.
+- GitHub : pour versionner votre code et hébérger gratuitement votre projet.
+- Visual Studio Code(VSCode) : qui est un IDE (Integrated Development Environment) qui permet d'écrire du code et qui se connecte à GitHub pour hierarchiser les changements dans notre code.
 - nfctools : qui est une application pour android ou iOS et qui nous permettra d'écrire de l'information sur notre sticker RFID.
 
 # Prérequis
 
-- avoir un compte Github
+- Avoir un compte Github
 
 - Un ordinateur
-- Un éditeur de code notre outil sera : [Visual Studio Code](https://code.visualstudio.com/Download)
+- Un éditeur de code notre outil sera : [Visual Studio Code](https://code.visualstudio.com/)
 - Un navigateur web (Chrome, Firefox ...)
 - Un smartphone avec un navigateur web (Chrome, Firefox ...)
 
@@ -40,7 +40,7 @@ Nous allons utiliser différents outils gratuits :
 
 - un petit carré de carton bois aux bords arrondis
 - un sticker découpé sur vinyle mat
-  // TODO on leur file quoi un truc taille carte postale pour coller leur image sortie de l'imprimante?
+  // TODO on leur file quoi? un truc taille carte postale pour coller leur image sortie de l'imprimante?
 - un petit cordon métallique avec une attache
 - une petite puce RFID
 
@@ -120,7 +120,9 @@ https://_[votre-nom-utilisateur]_.github.io/_[votre-depot]_
 
 Si vous revenez sur la page d'accueil de votre projet...
 
-// TODO screenshot pour montrer comment revenir sur l'onglet "Code" d'un projet
+<div align="center"> 
+<img src="ressources/github_back_home.png" alt="gh-pages settings done" width="75%" />
+</div>
 
 ... vous remarquerez au bout de quelques minutes, que certains éléments ont changés. Un déploiement est maintenant disponible !
 
@@ -132,49 +134,112 @@ Toute l'infrastructure nécessaire pour héberger votre projet est donc bien en 
 
 # Étape 3 : Utiliser Visual Studio Code
 
-Rendez-vous sur [Visual Studio Code](https://code.visualstudio.com/Download) et telechargez la version qui correspont a votre systeme d'exploitation.
+Rendez-vous sur [Visual Studio Code](https://code.visualstudio.com/), telechargez, et installez le.
 
-// TODO screeshots et plus d'explications
+Une fois ouvert vous devriez voir ceci
 
-// TODO montrer comment on se defait de la page d'accueil
+![alt text](image.png)
 
-Importer le dépôt : Utilisez l'option pour importer votre dépôt GitHub.
+On va recuperer une copie du projet que vous venez de creer sur github en le "clonant".
 
-// TODO montrer comment connecter son visual studio code a github via OAuth probablement
+![alt text](image-1.png)
+![alt text](image-2.png)
 
-// TODO montrer comment cloner un depot github depuis une fenetre vide
+Cependant votre VSCode n'est pas connecte a votre compte github et n'as donc pas les permissions et il va donc vous demander de regler ca
 
-Configurer le projet pour un usage de développement web.
+![alt text](image-3.png)
+![alt text](image-4.png)
 
-// TODO installer live server.
+Une fois chose faites, selectionnez votre projet, il est possible de taper dans la barre pour les filtrer.
 
-// TODO setup le port forwarding
+![alt text](image-5.png)
 
-https://code.visualstudio.com/docs/debugtest/port-forwarding
+Vous allez devoir choisir ou enregistrer cette copie du projet sur votre ordinateur.
 
-// TODO faire une section collapsible pour expliquer comment RE-lancer son projet, et donc faire la distinction entre ce qui est du setup de ce qui est de l'ouverture
+> [!TIP]
+> Il est vivement recommande de ranger votre projet plutot que de le mettre sur le bureau ou dans le dossier telechargement.
 
-// TODO creez un fichier index.html et verifiez que tout ce que votre tunnel fonctionne
+Acceptez d'ouvrir le projet dans VSCode, apes tout c'est pour ca qu'on vient de le telecharger.
 
-// TODO code fence d'un index html a la con
+![alt text](image-6.png)
 
-// TODO screenshot de ce qu'il devraient voir
+Maintenant vous devriez avoir une copie du projet dans vos dossiers et ouvert dans VSCode.
 
-// TODO explication de comment ouvrir le truc sur son telephone, potentiellement avec une lib de generation de qrcode pour que ce soit facilement ouvrable depuis n'imporet quel navigateur et pas juste chrome
+Cependant pour etre prets a travailler il nous manque une extension, donc allons dans le menu des extensions pour chercher "Live Server"
 
-Il ne vous reste plus qu'à sauvegarder vos changements dans l'`index.html` avec `Ctrl+S` pour voir votre page se mettre a jour en temps reel!
+![alt text](image-7.png)
 
-// TODO attention cependant, ceci est un tunnel, pas une publication, la page que vous visitez sur votre telephone ne marchera plus des que vous fermerez VSCode ou eteindrez votre ordinateur
+![alt text](image-8.png)
 
-// TODO mettre l'explication de comment push ici
+Et voila! On peut maintenant faire du web, l'environement dans lequel on va se servir de 8th Wall.
 
-# Étape 4 : Mettre en place la Realite Augmentee
+On va dans un premier temps se faire une page web simple sans AR pour tester que tout marche comme il faut.
 
-// TODO importer tout le bordel de dependances
+Dans votre projet, creez un fichier `index.html`
 
-# Étape 5 : Comprendre le code
+![alt text](image-9.png)
 
-Ce code créer une expérience simple de réalité augmentée (RA) en utilisant du code web de base et 8th Wall. Décomposons ce que fait chaque partie :
+Et collez ce code dedans
+
+```html
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <title>Ma première appli AR</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family:
+          "Iowan Old Style", "Palatino Linotype", "URW Palladio L", P052, serif;
+      }
+
+      main {
+        height: 100svh;
+        display: grid;
+        place-items: center;
+
+        hgroup {
+          border: 1px solid gray;
+          padding: 1rem 2rem;
+          border-radius: 0.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <hgroup>
+        <h1>Ça c'est ma page web</h1>
+        <p>
+          Y en a beaucoup comme ça, mais elle c'est la mienne. Ma page web c'est
+          mon amie.
+        </p>
+      </hgroup>
+    </main>
+  </body>
+</html>
+```
+
+Puis demarrez l'extension live server :
+
+1. Ouvrez la palette avec `Ctrl + Shift + P`
+2. Saisissez `Live` pour ne voir que les options liees a Live Server
+3. Choississez `Live Server : Open with Live Server`
+
+![alt text](image-10.png)
+
+Votre site va automatiquement s'ouvrir dans votre navigateur web par defaut
+
+# Étape Optionnelle : Comprendre le web
 
 Si vous n'êtes pas à l'aise et ne connaissez pas du tout la manière dont du code html fonctionne cliquez sur le petit triangle pour déplier une explication des bases de la syntaxe html
 
@@ -230,6 +295,90 @@ Dans cet exemple :
 
 </details>
 </br>
+
+# Étape 4 : Tester son site depuis son telephone
+
+Vous pourrez constater (sauf si vous etes sur Safari) que l'adresse de votre page est `http://127.0.0.1:5500/index.html`
+
+![alt text](image-11.png)
+
+Quand vous visitez un lien, votre navigteur va demander une page web a l'adresse renseignee
+
+<details> <summary> c'est marque `http://` et pas `https://` c'est quoi la difference?</summary>
+
+Le `S` veux dire "Secure".
+
+La difference est que dans une demande http, toutes les machines, qui vont faire passer la demande jusqu'au serveur de destintation, peuvent lire votre message. Tandis qu'avec https uniquement vous et le serveur en bout de chaine comprennent les messages que vous vous echangez.
+
+C'est ca qui vous protege, et pas les VPNs qui vous gavent de pub.
+
+</details>
+
+`127.0.0.1` est une adresse speciale parce qu'elle veux dire "moi meme". Autrement dit, sur mon ordinateur `127.0.0.1` est mon ordinateur, mais sur votre ordinateur `127.0.0.1` est le votre.
+
+En l'etat, votre site n'est pas accessible depuis internet, donc il n'est pas _facilement_ accessible depuis votre telephone, or on va avoir besoin de la camera et des capteur de mouvement de votre telephone pour l'AR.
+
+Donc on va utiliser un service gracieusement fournit par microsoft qui possede github et VSCode, et va "forward un port", ce qui veux dire qu'on va demnander a microsoft d'etre un relais vers l'exterieur pour une de nos application (Live Serveur dans ce cas).
+
+Cliquez sur l'icone tout dans le coin inferieur gauche et electionnez "Tunnel"
+
+![alt text](image-12.png)
+
+Selectionnez une connexion via votre compte github qui devrait deja etre lie a votre VSCode.
+
+![alt text](image-13.png)
+
+![alt text](image-14.png)
+
+![alt text](image-15.png)
+
+Appuyez sur la touche `Esc` de votre clavier.
+
+![alt text](image-16.png)
+
+Ouvrez la palette `Ctrl + Shift + P` et selectionnez `Forward a Port`
+
+![alt text](image-17.png)
+
+Rentrez le numero du port utilise par Live Server. Dans ce cas il s'agit du port 5500.
+
+![alt text](image-18.png)
+
+![alt text](image-19.png)
+
+Authorisez la redirection de ports au nom du compte que vous venez de connecter
+
+![alt text](image-20.png)
+
+Ouvrez la redirection de votre port.
+
+![alt text](image-21.png)
+
+![alt text](image-22.png)
+
+Microsoft va vous informer qu'ils vont vous diriger vers une page en cours de devolppement.
+
+![alt text](image-23.png)
+
+Vous pouvez constater que vous avez acces a votre site web au travers d'une addresse `devtunnels.ms`.
+
+D'ailleurs, si vous changez votre page web dans VSCode et que vous sauvegarder, vous verrez que les changements se font directement dans votre page web, prouvant qu'elle est bien fournie par Live Server. (Il est possible que vous ayez besoin de rafraichir la page une fois pour que la synchronisation Live Server se mette bien en place).
+
+Pour l'ouvrir sur votre telephone vous pouvez coller l'adresse que vous venez d'obtenir dans la barre d'adresse de votre navigateur (Chrome, Firefox...).
+
+// TODO gerer le splash login parcequ'il faut aussi etre connecte a github sur son telephone
+
+![alt text](image-24.png)
+
+// TODO insert a link to a QR code generator on some CDN
+
+# Étape 4 : Mettre en place la Realite Augmentee
+
+// TODO importer tout les dependances
+
+// on leur fait tout telecharger et on leur fait tout importer en drag and drop depuis leurs telechargements
+
+Ce code créer une expérience simple de réalité augmentée (RA) en utilisant du code web de base et 8th Wall. Décomposons ce que fait chaque partie :
 
 Ici nous avons une structure HTML classique : Le code met en place une page HTML basique avec les sections <head> et <body>.
 
@@ -335,15 +484,9 @@ Dans la partie `<body>`, et c'est ici que tout ce joue pour le contenu visible p
 
 En résumé, ce code crée une expérience de RA où un texte apparaît dans un esapce 3D lorsque le marqueur code-barres 0 est détecté par la caméra.
 
-# Étape 6 : Tester
+# Étape 6 : Publier l'application
 
-// TODO mettre comment on etabli un tunnel
-
-Vous pouvez ensuite répéter ces opérations en changeant le code, et en actualisant la page.
-
-Essayer par exemple de changer le texte, sa couleur, sa taille, sa position etc.
-
-# Étape 7 : Publier l'application
+Des que vous allez fermer VSCode la redirection de port va se terminer et votre experience AR ne sera plus accessible en ligne. On va donc voir comment mettre a jour la version github de votre projet
 
 Commiter les modifications : Utilisez les outils de versioning integres a VSCode pour commiter vos changements et les pousser sur votre dépôt GitHub.
 
@@ -355,7 +498,7 @@ Cette dernière opération va envoyer vos changements à votre dépot github et 
 
 **✨ Félicitations ! ✨** Vous avez créé votre première application AR. Vous pouvez maintenant personnaliser votre application plus loin en modifiant le texte, en ajoutant des modèles 3D.
 
-# Étape 8 : Encoder le sticker RFID
+# Étape 7 : Encoder le sticker RFID
 
 Notre but est de programmer notre sticker RFID pour que lorsque nous approchons notre téléphone, celui-ci va nous proposer d'ouvrir la page web hébergeant notre projet.
 
@@ -393,7 +536,7 @@ Vous pouvez fermer NFCTools et tester !
 
 ## Charger des assets
 
-// TODO changer le lien ci-dessous pour une addresse raw.github.com/
+// TODO changer le lien ci-dessous pour une addresse raw.github.com/, jsdelivr, raw.githack.com
 
 Vous pouvez télécharger un zip avec : une image, un modèle 3D et une vidéo [à cette adresse](https://github.com/b2renger/microprojetar/releases/download/v1.1/assets.zip).
 
@@ -762,3 +905,8 @@ Il faudra aussi penser à l'aspect ratio comme pour les images avec les paramèt
   </body>
 </html>
 ```
+
+// TODO faire une section collapsible pour expliquer comment RE-lancer son projet, et donc faire la distinction entre ce qui est du setup de ce qui est de l'ouverture
+// => ou une section tout a la fin qu'on peut link directement avec header id
+
+// TODO section troubleshoot pour mettre des parades a tout les problemes qui seront rencontres plus tard

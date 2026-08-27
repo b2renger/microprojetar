@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>02 — Text & MSDF Fonts (Three.js)</title>
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+    canvas { display: block; position: fixed; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+  </style>
+
+  <script type="importmap">
+  { "imports": {
+      "three": "https://esm.sh/three@0.178.0",
+      "three/addons/": "https://esm.sh/three@0.178.0/examples/jsm/"
+  } }
+  </script>
+
+  <!-- 8th Wall Engine -->
+  <script async src="../engine/xr.js" data-preload-chunks="slam"></script>
+</head>
+<body>
+  <canvas id="xr-canvas"></canvas>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { startXR8, applyTargetPose } from './lib/xr8-three-bootstrap.js';
+
+    // =========================================================================
+    // MSDF Text renderer — uses the same BMFont JSON + PNG atlases as A-Frame
+    // =========================================================================
+
+    const msdfVertexShader = /* glsl */`
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `;
+
+    const msdfFragmentShader = /* glsl */`
+      uniform sampler2D map;
+      uniform vec3 color;
+      uniform float opacity;
+      varying vec2 vUv;
+      float median(float r, float g, float b) {
+        return max(min(r, g), min(max(r, g), b));
+      }
+      void main() {
+        vec3 s = texture2D(map, vUv).rgb;
+        float sigDist = -(median(s.r, s.g, s.b) - 0.5);
+        float alpha = clamp(sigDist / fwidth(sigDist) + 0.5, 0.0, 1.0);
+        if (alpha < 0.01) discard;
+        gl_FragColor = vec4(color, alpha * opacity);
+      }
+    `;
+
+    /**
+     * Load a BMFont JSON and its companion PNG atlas.
+     * Returns { font, texture }.
+     */
+    async function loadMsdfFont(jsonUrl) {
+      const [fontData, texture] = await Promise.all([
+        fetch(jsonUrl).then(r => r.json()),
+        new Promise((resolve, reject) => {
+          // Derive PNG URL from JSON URL (same directory, same base name)
+          const pngUrl = jsonUrl.replace(/\.json$/, '.png');
+          new THREE.TextureLoader().load(pngUrl, resolve, undefined, reject);
+        })
+      ]);
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      texture.generateMipmaps = false;
+      return { font: fontData, texture };
+    }
+
+    /**
+     * Create a Three.js mesh that renders MSDF text.
+     *
+     * @param {string} text   — the string to render
+     * @param {object} font   — parsed BMFont JSON
+     * @param {THREE.Texture} texture — the MSDF atlas
+     * @param {object} opts   — { color, width, align }
+     *   width:  text block width in world units (controls apparent size, like A-Frame)
+     *   align:  'left' | 'center' | 'right'
+     */
+    function createMsdfText(text, font, texture, opts = {}) {
+      const color = new THREE.Color(opts.color || '#ffffff');
+      const blockWidth = opts.width || 4;
+      const align = opts.align || 'center';
+
+      // Build per-char data from BMFont metrics
+      const common = font.common;
+      const atlasW = common.scaleW;
+      const atlasH = common.scaleH;
+      const lineHeight = common.lineHeight;
+
+      // Map char id → glyph
+      const glyphMap = {};
+      for (const ch of font.chars) glyphMap[ch.id] = ch;
+
+      // Layout characters
+      const positions = [];
+      const uvs = [];
+      const indices = [];
+      let cursorX = 0;
+      let vertCount = 0;
+
+      for (let i = 0; i < text.length; i++) {
+        const code = text.charCodeAt(i);
+        const g = glyphMap[code];
+        if (!g) { cursorX += lineHeight * 0.5; continue; }
+
+        const x0 = cursorX + g.xoffset;
+        const y0 = -g.yoffset;
+        const x1 = x0 + g.width;
+        const y1 = y0 - g.height;
+
+        const u0 = g.x / atlasW;
+        const v0 = g.y / atlasH;
+        const u1 = (g.x + g.width) / atlasW;
+        const v1 = (g.y + g.height) / atlasH;
+
+        // Quad: 4 vertices
+        positions.push(x0, y0, 0,  x1, y0, 0,  x1, y1, 0,  x0, y1, 0);
+        uvs.push(u0, 1 - v0,  u1, 1 - v0,  u1, 1 - v1,  u0, 1 - v1);
+        indices.push(
+          vertCount, vertCount + 1, vertCount + 2,
+          vertCount, vertCount + 2, vertCount + 3
+        );
+        vertCount += 4;
+        cursorX += g.xadvance;
+      }
+
+      if (vertCount === 0) return new THREE.Group();
+
+      // Scale to world units: blockWidth maps to the rendered text width
+      const textWidthPx = cursorX;
+      const scale = blockWidth / textWidthPx;
+
+      // Apply alignment offset
+      let offsetX = 0;
+      if (align === 'center') offsetX = -textWidthPx / 2;
+      else if (align === 'right') offsetX = -textWidthPx;
+
+      // Center vertically around baseline
+      const offsetY = -lineHeight / 2;
+
+      // Apply offsets + scale to positions
+      const scaledPositions = new Float32Array(positions.length);
+      for (let i = 0; i < positions.length; i += 3) {
+        scaledPositions[i]     = (positions[i] + offsetX) * scale;
+        scaledPositions[i + 1] = (positions[i + 1] + offsetY) * scale;
+        scaledPositions[i + 2] = 0;
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(scaledPositions, 3));
+      geometry.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(uvs), 2));
+      geometry.setIndex(indices);
+
+      const material = new THREE.ShaderMaterial({
+        uniforms: {
+          map: { value: texture },
+          color: { value: color },
+          opacity: { value: 1.0 },
+        },
+        vertexShader: msdfVertexShader,
+        fragmentShader: msdfFragmentShader,
+        transparent: true,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+
+      return new THREE.Mesh(geometry, material);
+    }
+
+    // =========================================================================
+    // Scene setup
+    // =========================================================================
+
+    const group = new THREE.Group();
+    group.position.set(0, -9999, 0);
+
+    // Same MSDF font URLs as the A-Frame example
+    const FONT_BASE = 'https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts';
+    const creepsterUrl  = `${FONT_BASE}/creepster/Creepster-Regular.json`;
+    const berkshireUrl  = `${FONT_BASE}/berkshireswash/BerkshireSwash-Regular.json`;
+    const crimsonUrl    = `${FONT_BASE}/crimsontext/CrimsonText-Regular.json`;
+
+    // Load all fonts in parallel
+    const [creepster, berkshire, crimson] = await Promise.all([
+      loadMsdfFont(creepsterUrl),
+      loadMsdfFont(berkshireUrl),
+      loadMsdfFont(crimsonUrl),
+    ]);
+
+    // 1. Default A-Frame text (Roboto SDF) — approximate with canvas text
+    {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512; canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      ctx.font = 'bold 40px Roboto, Arial, sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Default Roboto (SDF)', 256, 32);
+      const tex = new THREE.CanvasTexture(canvas);
+      const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide });
+      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(3, 0.4), mat);
+      mesh.position.set(0, 2.0, 0);
+      group.add(mesh);
+    }
+
+    // 2. Creepster MSDF
+    {
+      const t = createMsdfText('Creepster MSDF', creepster.font, creepster.texture, {
+        color: '#FF0055', width: 4, align: 'center'
+      });
+      t.position.set(0, 1.4, 0);
+      group.add(t);
+    }
+
+    // 3. Berkshire Swash MSDF
+    {
+      const t = createMsdfText('Berkshire Swash', berkshire.font, berkshire.texture, {
+        color: '#00AAFF', width: 4, align: 'center'
+      });
+      t.position.set(0, 0.8, 0);
+      group.add(t);
+    }
+
+    // 4. Crimson Text MSDF
+    {
+      const t = createMsdfText('Crimson Text', crimson.font, crimson.texture, {
+        color: '#33CC33', width: 4, align: 'center'
+      });
+      t.position.set(0, 0.2, 0);
+      group.add(t);
+    }
+
+    // 5. Size comparison — same font, different widths
+    {
+      const t = createMsdfText('Small (width 2)', creepster.font, creepster.texture, {
+        color: '#FFAA00', width: 2, align: 'center'
+      });
+      t.position.set(0, -0.4, 0);
+      group.add(t);
+    }
+    {
+      const t = createMsdfText('Large (width 6)', creepster.font, creepster.texture, {
+        color: '#FFAA00', width: 6, align: 'center'
+      });
+      t.position.set(0, -0.9, 0);
+      group.add(t);
+    }
+
+    // --- Start XR8 ---
+    const { scene } = await startXR8({
+      canvas: document.getElementById('xr-canvas'),
+      imageTargets: [{
+        name: 'my-poster',
+        type: 'PLANAR',
+        imagePath: '../assets/Targets/Target_1000055040.jpg',
+        properties: {
+          left: 0, top: 0,
+          width: 830, height: 830,
+          originalWidth: 830, originalHeight: 830,
+          isRotated: false
+        }
+      }],
+      onImageFound: (detail) => {
+        applyTargetPose(group, detail);
+      },
+      onImageUpdated: (detail) => {
+        applyTargetPose(group, detail);
+      },
+      onImageLost: () => {
+        group.position.set(0, -9999, 0);
+      }
+    });
+
+    scene.add(group);
+  </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>01 — 3D Primitives (Three.js)</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+  </style>
+
+  <script type="importmap">
+  { "imports": {
+      "three": "https://esm.sh/three@0.178.0",
+      "three/addons/": "https://esm.sh/three@0.178.0/examples/jsm/"
+  } }
+  </script>
+
+  <!-- 8th Wall Engine -->
+  <script async src="../engine/xr.js" data-preload-chunks="slam"></script>
+</head>
+
+<body>
+  <canvas id="xr-canvas"></canvas>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { startXR8, applyTargetPose } from './lib/xr8-three-bootstrap.js';
+
+    // --- Content group (moved off-screen until image target is found) ---
+    const group = new THREE.Group();
+    group.position.set(0, -9999, 0);
+
+    // --- Title (canvas-based text on a plane, anchored to the target) ---
+    function makeTextPlane(text, fontSize, color) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512; canvas.height = 128;
+      const ctx = canvas.getContext('2d');
+      ctx.font = `bold ${fontSize}px Arial`;
+      ctx.fillStyle = color;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 256, 64);
+      const tex = new THREE.CanvasTexture(canvas);
+      const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide });
+      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(4, 1), mat);
+      return mesh;
+    }
+
+    const title = makeTextPlane('3D Primitives', 48, '#ffffff');
+    title.position.set(0, 2.2, 0);
+    group.add(title);
+
+    // --- Shadow-receiving ground plane ---
+    const ground = new THREE.Mesh(
+      new THREE.PlaneGeometry(6, 4),
+      new THREE.ShadowMaterial({ opacity: 0.95 })
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.set(0, 0.01, 0);
+    ground.receiveShadow = true;
+    group.add(ground);
+
+    // --- Row 1: Box, Sphere, Cylinder ---
+    const box = new THREE.Mesh(
+      new THREE.BoxGeometry(0.6, 0.6, 0.6),
+      new THREE.MeshStandardMaterial({ color: 0xFF0055 })
+    );
+    box.position.set(-1.2, 0.5, -0.5);
+    box.castShadow = true;
+    box.receiveShadow = true;
+    group.add(box);
+
+    const sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(0.35, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0x00AAFF })
+    );
+    sphere.position.set(0, 0.5, -0.5);
+    sphere.castShadow = true;
+    sphere.receiveShadow = true;
+    group.add(sphere);
+
+    const cylinder = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.25, 0.25, 0.8, 32),
+      new THREE.MeshStandardMaterial({ color: 0x33CC33 })
+    );
+    cylinder.position.set(1.2, 0.4, -0.5);
+    cylinder.castShadow = true;
+    cylinder.receiveShadow = true;
+    group.add(cylinder);
+
+    // --- Row 2: Cone, Torus, Ring ---
+    const cone = new THREE.Mesh(
+      new THREE.ConeGeometry(0.35, 0.8, 32),
+      new THREE.MeshStandardMaterial({ color: 0xFFAA00 })
+    );
+    cone.position.set(-1.2, 0.45, 0.5);
+    cone.castShadow = true;
+    cone.receiveShadow = true;
+    group.add(cone);
+
+    const torus = new THREE.Mesh(
+      new THREE.TorusGeometry(0.3, 0.06, 16, 48),
+      new THREE.MeshStandardMaterial({ color: 0xAA00FF })
+    );
+    torus.position.set(0, 0.5, 0.5);
+    torus.castShadow = true;
+    torus.receiveShadow = true;
+    group.add(torus);
+
+    const ring = new THREE.Mesh(
+      new THREE.RingGeometry(0.15, 0.35, 32),
+      new THREE.MeshStandardMaterial({ color: 0xFF5599, side: THREE.DoubleSide })
+    );
+    ring.position.set(1.2, 0.5, 0.5);
+    ring.castShadow = true;
+    ring.receiveShadow = true;
+    group.add(ring);
+
+    // --- Start XR8 ---
+    const { scene } = await startXR8({
+      canvas: document.getElementById('xr-canvas'),
+      imageTargets: [{
+        name: 'my-poster',
+        type: 'PLANAR',
+        imagePath: '../assets/Targets/Target_1000055040.jpg',
+        properties: {
+          left: 0, top: 0,
+          width: 830, height: 830,
+          originalWidth: 830, originalHeight: 830,
+          isRotated: false
+        }
+      }],
+      onImageFound: (detail) => {
+        applyTargetPose(group, detail);
+      },
+      onImageUpdated: (detail) => {
+        applyTargetPose(group, detail);
+      },
+      onImageLost: () => {
+        group.position.set(0, -9999, 0);
+      },
+      onRenderLoop: (_ctx, _delta) => {
+        const t = performance.now() * 0.001;
+
+
+        // Box: continuous Y rotation
+        box.rotation.y = (t * Math.PI * 2) / 4; // full turn in 4s
+
+        // Sphere: bounce between y=0.5 and y=1.0
+        //const bounce = Math.sin(t * Math.PI / 1.5) * 0.5; // easeInOutQuad-ish
+        //sphere.position.y = 0.5 + Math.abs(bounce) * 0.5;
+
+        // Cylinder: continuous X rotation
+        cylinder.rotation.x = (t * Math.PI * 2) / 3;
+
+        // Cone: 
+        cone.rotation.z = (t * Math.PI * 2) / 3;
+        cone.rotation.y = (t * Math.PI * 2) / 2.5;
+
+        // Torus: dual-axis rotation
+        torus.rotation.x = (t * Math.PI * 2) / 5;
+        torus.rotation.y = (t * Math.PI * 2) / 5;
+
+        // Ring: Z rotation
+        ring.rotation.y = (t * Math.PI * 2) / 3.5;
+      }
+    });
+
+    scene.add(group);
+  </script>
+</body>
+
+</html>

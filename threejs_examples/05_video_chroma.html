@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>05 — Video Chromakey (Three.js)</title>
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+    canvas { display: block; position: fixed; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+  </style>
+
+  <script type="importmap">
+  { "imports": {
+      "three": "https://esm.sh/three@0.178.0",
+      "three/addons/": "https://esm.sh/three@0.178.0/examples/jsm/"
+  } }
+  </script>
+
+  <!-- 8th Wall Engine -->
+  <script async src="../engine/xr.js" data-preload-chunks="slam"></script>
+</head>
+<body>
+  <canvas id="xr-canvas"></canvas>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { startXR8, applyTargetPose } from './lib/xr8-three-bootstrap.js';
+
+    const group = new THREE.Group();
+    group.position.set(0, -9999, 0);
+
+    // --- Video element ---
+    const video = document.createElement('video');
+    video.src = '../assets/mask_green_sil.mp4';
+    video.loop = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.crossOrigin = 'anonymous';
+    video.pause();
+
+    // --- Chromakey shader material ---
+    const videoTexture = new THREE.VideoTexture(video);
+    videoTexture.minFilter = THREE.LinearFilter;
+
+    const chromakeyMaterial = new THREE.ShaderMaterial({
+      transparent: true,
+      uniforms: {
+        myTexture: { value: videoTexture },
+        color: { value: new THREE.Color(0x00FF00) },
+        chroma: { value: true }
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main(void) {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D myTexture;
+        uniform vec3 color;
+        uniform bool chroma;
+        varying vec2 vUv;
+        void main(void) {
+          vec3 tColor = texture2D(myTexture, vUv).rgb;
+          float a = 1.0;
+          if (chroma) {
+            a = (length(tColor - color) - 0.75) * 7.0;
+          }
+          gl_FragColor = vec4(tColor, a);
+        }
+      `
+    });
+
+    const plane = new THREE.Mesh(
+      new THREE.PlaneGeometry(2, 1.5),
+      chromakeyMaterial
+    );
+    plane.position.set(0, 0, 0);
+    group.add(plane);
+
+    // --- Start XR8 ---
+    const { scene } = await startXR8({
+      canvas: document.getElementById('xr-canvas'),
+      imageTargets: [{
+        name: 'my-poster',
+        type: 'PLANAR',
+        imagePath: '../assets/Targets/Target_1000055040.jpg',
+        properties: {
+          left: 0, top: 0,
+          width: 830, height: 830,
+          originalWidth: 830, originalHeight: 830,
+          isRotated: false
+        }
+      }],
+      onImageFound: (detail) => {
+        applyTargetPose(group, detail);
+        video.play().catch((err) => console.warn('Video play blocked:', err));
+      },
+      onImageUpdated: (detail) => {
+        applyTargetPose(group, detail);
+      },
+      onImageLost: () => {
+        group.position.set(0, -9999, 0);
+        video.pause();
+      }
+    });
+
+    scene.add(group);
+  </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>04 — 3D Models (Three.js)</title>
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+    canvas { display: block; position: fixed; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+  </style>
+
+  <script type="importmap">
+  { "imports": {
+      "three": "https://esm.sh/three@0.178.0",
+      "three/addons/": "https://esm.sh/three@0.178.0/examples/jsm/"
+  } }
+  </script>
+
+  <!-- 8th Wall Engine -->
+  <script async src="../engine/xr.js" data-preload-chunks="slam"></script>
+</head>
+<body>
+  <canvas id="xr-canvas"></canvas>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { startXR8, applyTargetPose } from './lib/xr8-three-bootstrap.js';
+
+    const group = new THREE.Group();
+    group.visible = false;
+
+    const gltfLoader = new GLTFLoader();
+    let mixer = null;
+
+    // Load static model (plant)
+    const plant = await gltfLoader.loadAsync('../assets/plant_modelling.glb');
+    plant.scene.position.set(-0.5, 0, 0);
+    plant.scene.rotation.set(Math.PI / 2, 0, 0);
+    plant.scene.scale.set(0.1, 0.1, 0.1);
+    group.add(plant.scene);
+
+    // Load animated model
+    const anim = await gltfLoader.loadAsync('../assets/satanim3.glb');
+    anim.scene.position.set(0.5, 0, 0);
+    anim.scene.rotation.set(Math.PI / 2, 0, 0);
+    anim.scene.scale.set(0.05, 0.05, 0.05);
+    group.add(anim.scene);
+
+    // Set up animation mixer
+    if (anim.animations.length > 0) {
+      mixer = new THREE.AnimationMixer(anim.scene);
+      for (const clip of anim.animations) {
+        mixer.clipAction(clip).play();
+      }
+    }
+
+    // --- Start XR8 ---
+    const { scene } = await startXR8({
+      canvas: document.getElementById('xr-canvas'),
+      imageTargets: [{
+        name: 'my-poster',
+        type: 'PLANAR',
+        imagePath: '../assets/Targets/Target_1000055040.jpg',
+        properties: {
+          left: 0, top: 0,
+          width: 830, height: 830,
+          originalWidth: 830, originalHeight: 830,
+          isRotated: false
+        }
+      }],
+      onImageFound: (detail) => {
+        applyTargetPose(group, detail);
+        group.visible = true;
+      },
+      onImageUpdated: (detail) => {
+        applyTargetPose(group, detail);
+      },
+      onImageLost: () => {
+        group.visible = false;
+      },
+      onRenderLoop: (_ctx, delta) => {
+        if (mixer) mixer.update(delta);
+      }
+    });
+
+    scene.add(group);
+  </script>
+</body>
+</html>

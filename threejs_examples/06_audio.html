@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>06 — Audio (Three.js)</title>
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+    canvas { display: block; position: fixed; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+  </style>
+
+  <script type="importmap">
+  { "imports": {
+      "three": "https://esm.sh/three@0.178.0",
+      "three/addons/": "https://esm.sh/three@0.178.0/examples/jsm/"
+  } }
+  </script>
+
+  <!-- 8th Wall Engine -->
+  <script async src="../engine/xr.js" data-preload-chunks="slam"></script>
+</head>
+<body>
+  <canvas id="xr-canvas"></canvas>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { startXR8, applyTargetPose } from './lib/xr8-three-bootstrap.js';
+
+    const group = new THREE.Group();
+    group.visible = false;
+
+    // --- Audio ---
+    const audio = new Audio('../assets/634332__josefpres__bass-loops-077-with-drums-long-loop-120-bpm.mp3');
+    audio.loop = true;
+
+    // --- Speaker visual ---
+    const speakerBase = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.15, 0.15, 0.05, 32),
+      new THREE.MeshStandardMaterial({ color: 0x333333 })
+    );
+    speakerBase.position.set(0, 0.025, 0);
+    group.add(speakerBase);
+
+    const speakerCone = new THREE.Mesh(
+      new THREE.ConeGeometry(0.15, 0.3, 32),
+      new THREE.MeshStandardMaterial({ color: 0x555555 })
+    );
+    speakerCone.position.set(0, 0.2, 0);
+    group.add(speakerCone);
+
+    // --- Sound rings ---
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: 0x00AAFF, transparent: true, opacity: 0.6, side: THREE.DoubleSide
+    });
+    const ring1 = new THREE.Mesh(new THREE.RingGeometry(0.25, 0.28, 32), ringMat.clone());
+    ring1.position.set(0, 0.3, 0);
+    group.add(ring1);
+
+    const ring2 = new THREE.Mesh(new THREE.RingGeometry(0.25, 0.28, 32), ringMat.clone());
+    ring2.position.set(0, 0.3, 0);
+    group.add(ring2);
+
+    // --- Text label (sprite) ---
+    const canvas = document.createElement('canvas');
+    canvas.width = 512; canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    ctx.font = 'bold 40px Arial';
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Audio Playing', 256, 64);
+    const textSprite = new THREE.Sprite(
+      new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(canvas), transparent: true })
+    );
+    textSprite.scale.set(3, 0.75, 1);
+    textSprite.position.set(0, 0.8, 0);
+    group.add(textSprite);
+
+    // --- Start XR8 ---
+    const { scene } = await startXR8({
+      canvas: document.getElementById('xr-canvas'),
+      imageTargets: [{
+        name: 'my-poster',
+        type: 'PLANAR',
+        imagePath: '../assets/Targets/Target_1000055040.jpg',
+        properties: {
+          left: 0, top: 0,
+          width: 830, height: 830,
+          originalWidth: 830, originalHeight: 830,
+          isRotated: false
+        }
+      }],
+      onImageFound: () => {
+        group.visible = true;
+        audio.play().catch((err) => console.warn('Audio play blocked:', err));
+      },
+      onImageUpdated: (detail) => {
+        applyTargetPose(group, detail);
+      },
+      onImageLost: () => {
+        group.visible = false;
+        audio.pause();
+      },
+      onRenderLoop: () => {
+        const t = performance.now() * 0.001;
+
+        // Ring 1: expand + fade (1.5s loop)
+        const phase1 = (t % 1.5) / 1.5;
+        const s1 = 1 + phase1;
+        ring1.scale.set(s1, s1, s1);
+        ring1.material.opacity = 0.6 * (1 - phase1);
+
+        // Ring 2: same, 500ms delayed
+        const phase2 = ((t + 1.0) % 1.5) / 1.5;
+        const s2 = 1 + phase2;
+        ring2.scale.set(s2, s2, s2);
+        ring2.material.opacity = 0.6 * (1 - phase2);
+      }
+    });
+
+    scene.add(group);
+  </script>
+</body>
+</html>

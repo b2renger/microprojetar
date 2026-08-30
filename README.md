@@ -364,9 +364,10 @@ Vous pouvez constater que vous avez acces a votre site web au travers d'une addr
 
 D'ailleurs, si vous changez votre page web dans VSCode et que vous sauvegarder, vous verrez que les changements se font directement dans votre page web, prouvant qu'elle est bien fournie par Live Server. (Il est possible que vous ayez besoin de rafraichir la page une fois pour que la synchronisation Live Server se mette bien en place).
 
-Pour l'ouvrir sur votre telephone vous pouvez coller l'adresse que vous venez d'obtenir dans la barre d'adresse de votre navigateur (Chrome, Firefox...).
+Pour l'ouvrir sur votre telephone vous pouvez tout simplement scanner le QR present lors de l'ouverture de la page sur ordinateur.
 
 // TODO gerer le splash login parcequ'il faut aussi etre connecte a github sur son telephone
+// "cependant ce tunnel n'acceptera que vous, au travers de votre compte github, donc il faut se logger et on ne peux pas envoyer a lien a un copain
 
 ![alt text](image-24.png)
 

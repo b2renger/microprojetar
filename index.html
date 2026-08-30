@@ -1,32 +1,50 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <title>03 — Images (Three.js)</title>
-    <style>
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
-      canvas {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100% !important;
-        height: 100% !important;
-      }
-    </style>
 
-    <script type="importmap">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>8th wall example</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+
+      display: grid;
+      place-items: center;
+    }
+
+    #xr-canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    qr-overlay {
+      color: gray;
+      font-size: 2.5rem;
+      z-index: 99999;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+  </style>
+
+  <!-- on importe le moteur 3d -->
+  <script type="importmap">
       {
         "imports": {
           "three": "https://esm.sh/three@0.178.0",
@@ -35,118 +53,176 @@
       }
     </script>
 
-    <!-- 8th Wall Engine -->
-    <script async src="engine/xr.js" data-preload-chunks="slam"></script>
-  </head>
-  <body>
-    <canvas id="xr-canvas"></canvas>
+  <!-- on importe 8th Wall (le moteur d'AR) -->
+  <script async src="https://raw.githack.com/b2renger/microprojetar/8th_wall/engine/xr.js"
+    data-preload-chunks="slam"></script>
+</head>
 
-    <script type="module">
-      import * as THREE from "three";
-      import {
-        startXR8,
-        applyTargetPose,
-        XR83Image,
-      } from "./libs/xr8-three-bootstrap.js";
+<body>
+  <canvas id="xr-canvas"></canvas>
+  <qr-overlay>
+    <canvas id="qr-canvas"></canvas>
+  </qr-overlay>
 
-      // all the shared loaders
-      // one for each asset type
-      const textureLoader = new THREE.TextureLoader();
+  <!-- TODO port all the links to CDN-ed versions of the libs once it's merged into main -->
+  <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+  <script>
+    eruda.init();
+  </script>
+  <script type="module">
+    // librairie pour generer le QR code adaptee a l'adresse de la page
+    import qrcode from "https://cdn.jsdelivr.net/npm/qrcode@1.5.4/+esm";
 
-      // a Object<label, Promise<asset> || asset>
-      const assets = {
-        export1: textureLoader.loadAsync("./assets/export1.png"),
-      };
+    // on montre le QR seulement si on est pas sur localhost
+    // parce que pour visiter le site depuis un mobile, il faut le faire au travers du tunnel
+    if (
+      window.location.hostname != "localhost" &&
+      !window.location.hostname.match("^127.") &&
+      window.location.hostname != "::1"
+    ) {
+      qrcode.toCanvas(
+        document.getElementById("qr-canvas"),
+        window.location.href,
+        { scale: 8 },
+        (err) => console.error(err),
+      );
+    }
 
-      // the loading af all assets in "parrallel"
-      await Promise.all(
-        Object.entries(assets).map(async ([k, v]) => {
-          // is it then-able? i.e. is it a Promise?
-          // if so, await it
-          if (v.then) {
-            assets[k] = await v;
-          }
-        }),
-      ); // so now `assets` is a Object<label,asset>
+    // on lie la librairie pour faire de la 3d a notre script
+    // et la librairie qui connecte AR et moteur 3d
+    import * as THREE from "three";
+    import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+    import {
+      startXR8,
+      XR83Image,
+      XR8Model,
+      XR8Video
+      // } from "https://raw.githack.com/b2renger/microprojetar/8th_wall/lib/xr8-three-bootstrap.js";
+    } from "./lib/xr8-three-bootstrap.js";
 
-      const targets = [
-        {
-          name: "my-poster",
-          type: "PLANAR",
-          imagePath: "assets/Targets/Target_1000055040.jpg",
-          metadata: {
-            entity: new XR83Image(assets.export1),
-          },
-          properties: {
-            left: 0,
-            top: 0,
-            width: 830,
-            height: 830,
-            originalWidth: 830,
-            originalHeight: 830,
-            isRotated: false,
-          },
+    // all the shared loaders
+    // one for each asset type
+    const textureLoader = new THREE.TextureLoader();
+    const gltfLoader = new GLTFLoader();
+
+    // a Object<label, Promise<asset> || asset>
+    const assets = {
+      export1: textureLoader.loadAsync("./assets/export1.png"),
+      plant: gltfLoader.loadAsync("./assets/plant_modeling.glb"),
+      vid: "./assets/mask_green_back.mp4"
+    };
+
+    // the loading af all assets in "parrallel"
+    await Promise.all(
+      Object.entries(assets).map(async ([k, v]) => {
+        // is it then-able? i.e. is it a Promise?
+        // if so, await it
+        if (v.then) {
+          assets[k] = await v;
+        }
+      }),
+    ); // so now `assets` is a Object<label,thing>
+
+    assets.plant.scene.position.set(-0.5, 0, 0);
+    assets.plant.scene.rotation.set(Math.PI / 2, 0, 0);
+    assets.plant.scene.scale.set(0.1, 0.1, 0.1);
+
+    const targets = [
+      {
+        name: "flowers-target",
+        type: "PLANAR",
+        imagePath: "./assets/Targets/flowers.jpg",
+        metadata: {
+          entity: new XR83Image(assets.export1),
         },
-        {
-          name: "cat-poster",
-          type: "PLANAR",
-          imagePath: "assets/Targets/Target_cat.jpg",
-          metadata: {
-            entity: new XR83Image(assets.export1),
-          },
-          properties: {
-            left: 0,
-            top: 0,
-            width: 830,
-            height: 830,
-            originalWidth: 830,
-            originalHeight: 830,
-            isRotated: false,
-          },
+        properties: {
+          left: 0,
+          top: 0,
+          width: 830,
+          height: 830,
+          originalWidth: 830,
+          originalHeight: 830,
+          isRotated: false,
         },
-      ];
-
-      // --- Start XR8 ---
-      // TODO move all the things below somewhere else to hide it, because it doesn't require change from the POV of the user of XR83
-      const { scene } = await startXR8({
-        canvas: document.getElementById("xr-canvas"),
-        imageTargets: targets,
-        onImageFound: (detail) => {
-          const preventDefault = detail.metadata.entity.onImageFound(detail);
-
-          if (!preventDefault && typeof preventDefault != "undefined") {
-            return;
-          }
-
-          // common part for every entity type
-          // TODO?
+      },
+      {
+        name: "plotter-target",
+        type: "PLANAR",
+        imagePath: "./assets/Targets/plotter.jpg",
+        metadata: {
+          entity: new XR8Model(assets.plant.scene),
         },
-        onImageUpdated: (detail) => {
-          const preventDefault = detail.metadata.entity.onImageUpdated(detail);
-
-          if (!preventDefault && typeof preventDefault != "undefined") {
-            return;
-          }
-
-          // common part for every entity type
-          // TODO?
+        properties: {
+          left: 0,
+          top: 0,
+          width: 830,
+          height: 830,
+          originalWidth: 830,
+          originalHeight: 830,
+          isRotated: false,
         },
-        onImageLost: (detail) => {
-          const preventDefault = detail.metadata.entity.onImageLost(detail);
-
-          if (!preventDefault && typeof preventDefault != "undefined") {
-            return;
-          }
-
-          // common part for every entity type
-          // TODO?
+      },
+      {
+        name: "wall-target",
+        type: "PLANAR",
+        imagePath: "./assets/Targets/wall_close.jpg",
+        metadata: {
+          entity: new XR8Video(assets.vid),
         },
-      });
+        properties: {
+          left: 0,
+          top: 0,
+          width: 830,
+          height: 830,
+          originalWidth: 830,
+          originalHeight: 830,
+          isRotated: false,
+        },
+      },
+    ];
 
-      // just add all the targets to the scene
-      for (const target of targets) {
-        scene.add(target.metadata.entity);
-      }
-    </script>
-  </body>
+    // --- Start XR8 ---
+    // TODO move all the things below somewhere else to hide it, because it doesn't require change from the POV of the user of XR83
+    const { scene } = await startXR8({
+      canvas: document.getElementById("xr-canvas"),
+      imageTargets: targets,
+      onImageFound: (detail) => {
+        const preventDefault = detail.metadata.entity.onImageFound(detail);
+
+        if (!preventDefault && typeof preventDefault != "undefined") {
+          return;
+        }
+
+        // common part for every entity type
+        // TODO?
+      },
+      onImageUpdated: (detail) => {
+        const preventDefault = detail.metadata.entity.onImageUpdated(detail);
+
+        if (!preventDefault && typeof preventDefault != "undefined") {
+          return;
+        }
+
+        // common part for every entity type
+        // TODO?
+      },
+      onImageLost: (detail) => {
+        const preventDefault = detail.metadata.entity.onImageLost(detail);
+
+        if (!preventDefault && typeof preventDefault != "undefined") {
+          return;
+        }
+
+        // common part for every entity type
+        // TODO?
+      },
+    });
+
+    // just add all the targets to the scene
+    for (const target of targets) {
+      scene.add(target.metadata.entity);
+    }
+  </script>
+</body>
+
 </html>

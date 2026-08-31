@@ -6,34 +6,34 @@ Dans ce tutoriel, nous allons vous guider pas à pas dans la création d'une app
 
 https://github.com/user-attachments/assets/f4b1f979-b22c-443c-ae03-740b0111a7f0
 
-L'objectif est de voir ensemble toute la chaine technique qui permet à un projet d'exister en tant que page web. Nous verrons aussi comment écrire des informations sur des puces RFID.
+L'objectif est de voir ensemble toute la chaîne technique qui permet à un projet d'exister en tant que page web. Nous verrons aussi comment écrire des informations sur des puces RFID.
 
 Nous utiliserons A-Frame, un framework web open-source pour créer des expériences VR/AR, et AR.js, une bibliothèque JavaScript qui permet d'intégrer des fonctionnalités AR dans les applications web.
 
 Notre objectif sera d'afficher le texte "Hello" sur un marqueur AR de type code-barres. Puis de customiser le contenu.
 
-Ce petit projet comprend aussi la réalisation d'une "étiquette" / "porte clé".
+Ce petit projet comprend aussi la réalisation d'une "étiquette" / "porte-clé".
 
 <div align="center">
-  <img src="ressources/markup_1000019121.png" alt="text disaplyed in ar" width="45%" height="400"/>
+  <img src="ressources/markup_1000019121.png" alt="text displayed in ar" width="45%" height="400"/>
   <img src="ressources/markup_1000019122.png" alt="3d model displayed in ar" width="45%" height="400"/>
 </div>
 
 Nous allons utiliser différents outils gratuits :
 
-- github : pour versionner votre code et hébérger gratuitement votre projet.
-- Firebase Studio : qui est un IDE (integrated development environment) qui permet d'écrire du code et qui se connecte à github pour hierarchiser les changements dans notre code.
-- nfctools : qui est une application pour android ou iOS et qui nous permettra d'écrire de l'information sur notre sticker RFID.
+- GitHub : pour versionner votre code et héberger gratuitement votre projet.
+- Firebase Studio : qui est un IDE (integrated development environment) qui permet d'écrire du code et qui se connecte à GitHub pour hiérarchiser les changements dans notre code.
+- NFC Tools : qui est une application pour Android ou iOS et qui nous permettra d'écrire de l'information sur notre sticker RFID.
 
 # Prérequis
 
-- avoir un compte Github
+- avoir un compte GitHub
 - avoir un compte Gmail
 
 - Un ordinateur
-- Un éditeur de code notre outil sera : [Firebase Studio](https://studio.firebase.google.com)
-- Un navigateur web (Chrome, Firefox ...)
-- Un smartphone avec un navigateur web (Chrome, Firefox ...)
+- Un éditeur de code, notre outil sera : [Firebase Studio](https://studio.firebase.google.com)
+- Un navigateur web (Chrome, Firefox...)
+- Un smartphone avec un navigateur web (Chrome, Firefox...)
 
 # Matériel à votre disposition
 
@@ -50,18 +50,18 @@ Pour l'assemblage, rien de plus simple :
 
 - coller le sticker sur le carré en carton bois sur l'emplacement délimité par la gravure.
 - coller la puce RFID, centrée, au dos de ce carré.
-- dévisser l'attache et faite la passer dans le trou.
+- dévisser l'attache et faites-la passer dans le trou.
 
 et voilà ! on est prêts à passer sur la partie numérique !
 
-Si vous voulez plus d'infos sur cette partie là
+Si vous voulez plus d'infos sur cette partie-là :
 
 - [Explications de la découpe stickers](https://github.com/LucieMrc/SilhouetteCameo_2spi)
 - [Explications sur la découpe laser](https://github.com/b2renger/Introduction_Laser_Beambox)
 
 📽️Speedrun video :
 
-- ce tuto parait long ...
+- ce tuto paraît long...
 - en vrai non, ça prend moins de 10 minutes !
 
 https://github.com/user-attachments/assets/0d7ed300-bff6-4171-a3a7-28d8e4be6978
@@ -70,7 +70,7 @@ https://github.com/user-attachments/assets/0d7ed300-bff6-4171-a3a7-28d8e4be6978
 
 - Créer un compte GitHub : Si vous n'en avez pas déjà un, rendez-vous sur https://github.com/signup?source=login et créez un compte.
 
-**☢️ Le nom d'utilisateur que vous choisissez sera utilisé pour l'adresse qu'il faudra tapper pour voir votre projet. <u>Choisissez un nom court ! sans espaces, sans caractères spéciaux (accents, cédille, etc.)</u>**
+**☢️ Le nom d'utilisateur que vous choisissez sera utilisé pour l'adresse qu'il faudra taper pour voir votre projet. <u>Choisissez un nom court ! sans espaces, sans caractères spéciaux (accents, cédille, etc.)</u>**
 
 <div align="center"> 
   <img src="ressources/Capture_signup_github.png" alt="signup github page" width="49%" height="400"/>
@@ -80,7 +80,7 @@ https://github.com/user-attachments/assets/0d7ed300-bff6-4171-a3a7-28d8e4be6978
 - Créer un nouveau dépôt : Une fois connecté, cliquez sur le bouton "New repository".
 - Donnez un nom à votre dépôt (par exemple, "microProjetAr"),
 - (Ajoutez une description facultative),
-- **Activer** l'option Add README.
+- **Activez** l'option Add README.
 - et cliquez sur "Create repository".
 
 <div align="center"> 
@@ -88,12 +88,12 @@ https://github.com/user-attachments/assets/0d7ed300-bff6-4171-a3a7-28d8e4be6978
 </div>
 </br>
 <div align="center"> 
-<img src="ressources/Capture_github_newRepoCreation..png " alt="menu to create new repo" width="75%" />
+<img src="ressources/Capture_github_newRepoCreation..png" alt="menu to create new repo" width="75%" />
 </div>
 
 # Étape 2 : Activer GitHub Pages
 
-Nous allons maintenant configurer GitHub Pages, pour permettre à notre projet d'être servi par les serveurs de github lorsque l'on rentre l'adresse :
+Nous allons maintenant configurer GitHub Pages, pour permettre à notre projet d'être servi par les serveurs de GitHub lorsque l'on rentre l'adresse :
 
 https://_[votre-nom-utilisateur]_.github.io/_[votre-depot]_
 
@@ -114,7 +114,7 @@ https://_[votre-nom-utilisateur]_.github.io/_[votre-depot]_
 <img src="ressources/Capture_github_settings_pages_activate.png" alt="activate gh-pages" width="75%" />
 </div>
 
-Si vous revenez sur la page d'accueil de votre projet, vous remarquerez au bout de quelques minutes, que certains éléments ont changés. Un déploiement est maintenant disponible !
+Si vous revenez sur la page d'accueil de votre projet, vous remarquerez au bout de quelques minutes, que certains éléments ont changé. Un déploiement est maintenant disponible !
 
 <div align="center"> 
 <img src="ressources/Capture_github_settings_pages_done.png" alt="gh-pages settings done" width="75%" />
@@ -124,31 +124,31 @@ Toute l'infrastructure nécessaire pour héberger votre projet est donc bien en 
 
 # Étape 3 : Utiliser Visual Studio Code
 
-Rendez-vous sur [Visual Studio Code](https://code.visualstudio.com/), telechargez, et installez le.
+Rendez-vous sur [Visual Studio Code](https://code.visualstudio.com/), téléchargez, et installez-le.
 
-Une fois ouvert vous devriez voir ceci
+Une fois ouvert vous devriez voir ceci :
 
 <div align="center"> 
 <img src="ressources/image.png" alt="gh-pages settings done" width="75%" />
 </div>
 
-Telechargez notre projet
+Téléchargez votre projet :
 
 <div align="center"> 
 <img src="ressources/image-25.png" alt="gh-pages settings done" width="75%" />
 </div>
 
-de-zippez le projet, ce qui devrait nous donner un dossier du meme nom.
+Dézippez le projet, ce qui devrait nous donner un dossier du même nom.
 
 <div align="center"> 
 <img src="ressources/image-34.png" alt="gh-pages settings done" width="75%" />
 </div>
 
-Verifiez que vous n'avez pas un dossier portant le nom du projet a L'INTERIEUR du dossier de-zippe, si c'est le cas le projet est le dossier interieur.
+Vérifiez que vous n'avez pas un dossier portant le nom du projet à L'INTÉRIEUR du dossier dézippé, si c'est le cas le projet est le dossier intérieur.
 
-Ouvrez le dans VSCode en cliquant sur `File > Open Folder`
+Ouvrez-le dans VSCode en cliquant sur `File > Open Folder`
 
-Acceptez d'ouvrir le projet dans VSCode, apes tout c'est pour ca qu'on vient de le telecharger.
+Acceptez d'ouvrir le projet dans VSCode, après tout c'est pour ça qu'on vient de le télécharger.
 
 <div align="center"> 
 <img src="ressources/image-6.png" alt="gh-pages settings done" width="75%" />
@@ -159,22 +159,28 @@ Acceptez d'ouvrir le projet dans VSCode, apes tout c'est pour ca qu'on vient de 
 </div>
 
 > [!TIP]
-> Il est vivement recommande de ranger votre projet plutot que de le mettre sur le bureau ou dans le dossier telechargement.
+> Il est vivement recommandé de ranger votre projet plutôt que de le mettre sur le bureau ou dans le dossier téléchargement.
 
-![alt text](ressources/image-35.png)
+<div align="center"> 
+<img src="ressources/image-35.png" alt="gh-pages settings done" width="75%" />
+</div>
 
 > [!CAUTION]
-> Si vous voyez ceci, le projet est mal ouvert et il faut bien faire attention a prendre le dossier interieur.
+> Si vous voyez ceci, le projet est mal ouvert et il faut bien faire attention à prendre le dossier intérieur.
 
 Maintenant vous devriez avoir une copie du projet dans vos dossiers et ouvert dans VSCode.
 
-Cependant pour etre prets a travailler il nous manque une extension pour visualiser notre site web. Allons dans le menu des extensions pour chercher "Live Server"
+Cependant pour être prêts à travailler il nous manque une extension pour visualiser notre site web. Allons dans le menu des extensions pour chercher "Live Server"
 
-![alt text](ressources/image-7.png)
+<div align="center"> 
+<img src="ressources/image-7.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-![alt text](ressources/image-8.png)
+<div align="center"> 
+<img src="ressources/image-8.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-Et voila! On peut maintenant faire du web, l'environement dans lequel on va se servir de A-Frame.
+Et voilà ! On peut maintenant faire du web, l'environnement dans lequel on va se servir de A-Frame.
 
 <!-- # Étape 3 : Utiliser Firebase Studio
 
@@ -188,7 +194,7 @@ Rendez-vous sur [Firebase Studio](https://studio.firebase.google.com) et connect
 <img src="ressources/parental_2.png" alt="import repo in Firebase Studio" loading="lazy" />
 <img src="ressources/parental_3.png" alt="import repo in Firebase Studio" loading="lazy" />
 
-Et à partir de celle-la, il faut revenir en arrière (mais c'est important de visiter cette page)
+Et à partir de celle-là, il faut revenir en arrière (mais c'est important de visiter cette page)
 
 <img src="ressources/parental_4.png" alt="import repo in Firebase Studio" loading="lazy" />
 <img src="ressources/parental_5.png" alt="import repo in Firebase Studio" loading="lazy" />
@@ -207,7 +213,7 @@ Importer le dépôt : Utilisez l'option pour importer votre dépôt GitHub.
 <img src="ressources/fbs_home.JPG" alt="import repo in Firebase Studio" width="75%" />
 </div>
 
-Copiez l'adresse du dépot créé précédemment.
+Copiez l'adresse du dépôt créé précédemment.
 <div align="center">
 <img src="ressources/fbs_import.JPG" alt="import repo in Firebase Studio" width="75%" />
 <img src="ressources/fbs_import_gh.JPG" alt="import repo in Firebase Studio" width="75%" />
@@ -285,7 +291,7 @@ Votre environnement de travail devrait ressembler à ceci :
 
 Il ne vous reste plus qu'à cliquer sur le bouton "Rebuild Environment" et c'est bon !
 
-En theorie Firebase Studio devrait se recharger pour prendre en compte les changements specifies dans le `dev.nix` mais si ce n'est pas le cas, utilisez la palette avec `Ctrl + Shift + P` (`Cmd + Shift + P` sur Mac) et cherchez "rebuild" pour trouver l'option "rebuild environment".
+En théorie Firebase Studio devrait se recharger pour prendre en compte les changements spécifiés dans le `dev.nix` mais si ce n'est pas le cas, utilisez la palette avec `Ctrl + Shift + P` (`Cmd + Shift + P` sur Mac) et cherchez "rebuild" pour trouver l'option "rebuild environment".
 
 <img src="ressources/fbs_rebuild_env.JPG" alt="rebuild the IDE" width="100%" /> -->
 
@@ -339,11 +345,11 @@ Ajouter le code HTML : Copiez et collez le code HTML suivant dans votre fichier 
 
 # Étape 5 : Comprendre le code
 
-Ce code créer une expérience simple de réalité augmentée (RA) en utilisant A-Frame et AR.js. Décomposons ce que fait chaque partie :
+Ce code crée une expérience simple de réalité augmentée (RA) en utilisant A-Frame et AR.js. Décomposons ce que fait chaque partie :
 
-Si vous n'êtes pas à l'aise et ne connaissez pas du tout la manière dont du code html fonctionne cliquez sur le petit triangle pour déplier une explication des bases de la syntaxe html
+Si vous n'êtes pas à l'aise et ne connaissez pas du tout la manière dont du code HTML fonctionne, cliquez sur le petit triangle pour déplier une explication des bases de la syntaxe HTML.
 
-<details > <summary> <b>&#128161 les bases html</b> </summary>
+<details > <summary> <b>&#128161; les bases html</b> </summary>
 
 Une page HTML est comme un sandwich. Elle a besoin d'un pain du haut et d'un pain du bas pour contenir la garniture !
 
@@ -363,7 +369,7 @@ Par exemple :
 
 **Le corps** (`<body>` et `</body>`) : C'est la garniture du sandwich ! C'est le contenu visible de la page web : texte, images, vidéos, etc.
 
-La syntaxe et donc l'interprétation par le navigateur du code html repose sur des balises ouvrantes et fermantes :
+La syntaxe et donc l'interprétation par le navigateur du code HTML repose sur des balises ouvrantes et fermantes :
 
 - La balise **ouvrante** (par exemple `<p>`) dit au navigateur : "Attention, on commence un paragraphe !"
 - La balise fermante (par exemple `</p>`) dit : "Voilà, le paragraphe est terminé."
@@ -396,7 +402,7 @@ Dans cet exemple :
 </details>
 </br>
 
-Ici nous avons une structure HTML classique : Le code met en place une page HTML basique avec les sections <head> et <body>.
+Ici nous avons une structure HTML classique : Le code met en place une page HTML basique avec les sections `<head>` et `<body>`.
 
 Dans la partie `<head>`, nous ajoutons :
 
@@ -407,7 +413,7 @@ Dans la partie `<head>`, nous ajoutons :
   ```
 
 - la _Bibliothèque A-Frame_ : Il inclut la bibliothèque A-Frame (aframe.min.js) qui est un framework JavaScript permettant de créer des expériences de réalité virtuelle (RV) et de RA en utilisant du HTML.
-  Une bibliothèque est simplement du code que l'on ammène dans le projet pour ajouter des fonctionnalités supplémentaires. Un framework est une bibliothèque qui nécessite de respecter certaines regles pour bien marcher, mais en echange un framework est plus puissante qu'une bibliothèque normale.
+  Une bibliothèque est simplement du code que l'on amène dans le projet pour ajouter des fonctionnalités supplémentaires. Un framework est une bibliothèque qui nécessite de respecter certaines règles pour bien marcher, mais en échange un framework est plus puissant qu'une bibliothèque normale.
 
   ```html
   <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
@@ -416,10 +422,9 @@ Dans la partie `<head>`, nous ajoutons :
 - la _Bibliothèque AR.js_ : Il inclut la bibliothèque AR.js (aframe-ar.js) qui ajoute des capacités de RA à A-Frame.
   ```html
   <script src="https://raw.githubusercontent.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
-   
   ```
 
-Dans la partie `<body>`, et c'est ici que tout ce joue pour le contenu visible par l'utilisateur. Nous ajoutons :
+Dans la partie `<body>`, et c'est ici que tout se joue pour le contenu visible par l'utilisateur. Nous ajoutons :
 
 - la _scène RA_ : L'élément `<a-scene>` crée la scène de RA.
 
@@ -442,9 +447,9 @@ Dans la partie `<body>`, et c'est ici que tout ce joue pour le contenu visible p
   </a-scene>
   ```
 
-  Remarquez que dans la balise ouvrante `<a-scene>` nous ajoutons beaucoup d'options (qui s'appellent attributs en html) pour configuer la manière dont la scène va s'afficher.
+  Remarquez que dans la balise ouvrante `<a-scene>` nous ajoutons beaucoup d'options (qui s'appellent attributs en HTML) pour configurer la manière dont la scène va s'afficher.
 
-  <details > <summary> <b>&#128161 les détails des options de configuration de l'attribut arjs</b> </summary>
+  <details > <summary> <b>&#128161; les détails des options de configuration de l'attribut arjs</b> </summary>
   - *embedded* : Cet attribut indique à A-Frame d'intégrer la scène dans la page HTML.
   - _arjs_ : Cet attribut configure AR.js
     - _sourceType: webcam_ : Utilise la webcam de l'appareil comme source vidéo.
@@ -466,9 +471,9 @@ Dans la partie `<body>`, et c'est ici que tout ce joue pour le contenu visible p
   </a-marker>
   ```
 
-  Ici la valeur 9 correspond à un motif précis qui a été prédécoupé pour vous à la [découpeuse de stickers](https://github.com/LucieMrc/SilhouetteCameo_2spi). Avec la technique que nous utilisons [il existe 64 motifs différents](https://github.com/b2renger/Introduction_A-frame/blob/main/markers/barcodes/2.png) qui peuvent être détectés en même temps par arjs.
+  Ici la valeur 9 correspond à un motif précis qui a été prédécoupé pour vous à la [découpeuse de stickers](https://github.com/LucieMrc/SilhouetteCameo_2spi). Avec la technique que nous utilisons [il existe 64 motifs différents](https://github.com/b2renger/Introduction_A-frame/blob/main/markers/barcodes/2.png) qui peuvent être détectés en même temps par AR.js.
 
-- Un texte : L'élément <a-text> crée un texte en 3D qui sera affiché au-dessus du marqueur. Le texte est "Hello !", de couleur rouge et centré.
+- Un texte : L'élément `<a-text>` crée un texte en 3D qui sera affiché au-dessus du marqueur. Le texte est "Hello !", de couleur rouge et centré.
 
   ```html
   <a-text
@@ -483,10 +488,10 @@ Dans la partie `<body>`, et c'est ici que tout ce joue pour le contenu visible p
   </a-text>
   ```
 
-    <details > <summary> <b>&#128161 les détails des attributs de la balise a-text</b> </summary>
+    <details > <summary> <b>&#128161; les détails des attributs de la balise a-text</b> </summary>
   - *value* : Le texte à afficher.
-  - *side=double* : permet d'afficher le texte quelque soit l'angle sous lequel on le regarde.
-  - *position="0 0 -1" : la position xyz du centre du texte par rapport au centre du marqueur.
+  - *side=double* : permet d'afficher le texte quel que soit l'angle sous lequel on le regarde.
+  - *position="0 0 -1"* : la position xyz du centre du texte par rapport au centre du marqueur.
   - *rotation="270 0 0"* :
   - *width="8"* : la largeur du texte.
   - *color="red"* : la couleur du texte.
@@ -494,103 +499,133 @@ Dans la partie `<body>`, et c'est ici que tout ce joue pour le contenu visible p
   </details>
   </br>
 
-- Caméra : L'élément `<a-entity camera>` définit la caméra de la scène, le fonctionnement par défaut nous convient parfaitement, mais il est possible d'ajouter des fonctionalités comme par exemple l'interaction via l'orientation du regard ('gaze' interaction).
+- Caméra : L'élément `<a-entity camera>` définit la caméra de la scène, le fonctionnement par défaut nous convient parfaitement, mais il est possible d'ajouter des fonctionnalités comme par exemple l'interaction via l'orientation du regard ('gaze' interaction).
 
-En résumé, ce code crée une expérience de RA où un texte apparaît dans un esapce 3D lorsque le marqueur code-barres 0 est détecté par la caméra.
+En résumé, ce code crée une expérience de RA où un texte apparaît dans un espace 3D lorsque le marqueur code-barres 0 est détecté par la caméra.
 
 # Étape 6 : Tester sur ordinateur
 
 - Enregistrer les modifications : Enregistrez votre fichier index.html.
 
-demarrez l'extension live server :
+Démarrez l'extension Live Server :
 
 1. Ouvrez la palette avec `Ctrl + Shift + P`
-2. Saisissez `Live` pour ne voir que les options liees a Live Server
-3. Choississez `Live Server : Open with Live Server`
+2. Saisissez `Live` pour ne voir que les options liées à Live Server
+3. Choisissez `Live Server : Open with Live Server`
 
-![alt text](ressources/image-10.png)
+<div align="center"> 
+<img src="ressources/image-10.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-Votre site va automatiquement s'ouvrir dans votre navigateur web par defaut.
+Votre site va automatiquement s'ouvrir dans votre navigateur web par défaut.
 
-# Étape X : Tester son site depuis son telephone
+# Étape X : Tester son site depuis son téléphone
 
-Vous pourrez constater (sauf si vous etes sur Safari) que l'adresse de votre page est `http://127.0.0.1:5500/index.html`
+Vous pourrez constater (sauf si vous êtes sur Safari) que l'adresse de votre page est `http://127.0.0.1:5500/index.html`
 
-![alt text](ressources/image-11.png)
+<div align="center"> 
+<img src="ressources/image-11.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-Quand vous visitez un lien, votre navigteur va demander une page web a l'adresse renseignee
+Quand vous visitez un lien, votre navigateur va demander une page web à l'adresse renseignée.
 
-<details> <summary> c'est marque `http://` et pas `https://` c'est quoi la difference?</summary>
+<details> <summary> c'est marqué `http://` et pas `https://` c'est quoi la différence?</summary>
 
-Le `S` veux dire "Secure".
+Le `S` veut dire "Secure".
 
-La difference est que dans une demande http, toutes les machines, qui vont faire passer la demande jusqu'au serveur de destintation, peuvent lire votre message. Tandis qu'avec https uniquement vous et le serveur en bout de chaine comprennent les messages que vous vous echangez.
+La différence est que dans une demande HTTP, toutes les machines, qui vont faire passer la demande jusqu'au serveur de destination, peuvent lire votre message. Tandis qu'avec HTTPS uniquement vous et le serveur en bout de chaîne comprennent les messages que vous vous échangez.
 
-C'est ca qui vous protege, et pas les VPNs qui vous gavent de pub.
+C'est ça qui vous protège, et pas les VPNs qui vous gavent de pub.
 
 </details>
 
-`127.0.0.1` est une adresse speciale parce qu'elle veux dire "moi meme". Autrement dit, sur mon ordinateur `127.0.0.1` est mon ordinateur, mais sur votre ordinateur `127.0.0.1` est le votre.
+`127.0.0.1` est une adresse spéciale parce qu'elle veut dire "moi-même". Autrement dit, sur mon ordinateur `127.0.0.1` est mon ordinateur, mais sur votre ordinateur `127.0.0.1` est le vôtre.
 
-En l'etat, votre site n'est pas accessible depuis internet, donc il n'est pas _facilement_ accessible depuis votre telephone, or on va avoir besoin de la camera et des capteur de mouvement de votre telephone pour l'AR.
+En l'état, votre site n'est pas accessible depuis Internet, donc il n'est pas _facilement_ accessible depuis votre téléphone, or on va avoir besoin de la caméra et des capteurs de mouvement de votre téléphone pour l'AR.
 
-Donc on va utiliser un service gracieusement fournit par microsoft (qui possede github et VSCode), et on va "forward un port", ce qui veux dire qu'on va demnander a microsoft d'etre un relais vers l'exterieur pour une de nos application (Live Serveur dans ce cas).
+Donc on va utiliser un service gracieusement fourni par Microsoft (qui possède GitHub et VSCode), et on va "forward un port", ce qui veut dire qu'on va demander à Microsoft d'être un relais vers l'extérieur pour une de nos applications (Live Server dans ce cas).
 
-Cliquez sur l'icone tout dans le coin inferieur gauche et electionnez "Tunnel"
+Cliquez sur l'icône tout dans le coin inférieur gauche et sélectionnez "Tunnel"
 
-![alt text](ressources/image-12.png)
+<div align="center"> 
+<img src="ressources/image-12.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-Selectionnez une connexion via votre compte github qui devrait deja etre lie a votre VSCode.
+Sélectionnez une connexion via votre compte GitHub qui devrait déjà être lié à votre VSCode.
 
-![alt text](ressources/image-13.png)
+<div align="center"> 
+<img src="ressources/image-13.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-![alt text](ressources/image-14.png)
+<div align="center"> 
+<img src="ressources/image-14.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-![alt text](ressources/image-15.png)
+<div align="center"> 
+<img src="ressources/image-15.png" alt="gh-pages settings done" width="75%" />
+</div>
 
 Appuyez sur la touche `Esc` de votre clavier.
 
-![alt text](ressources/image-16.png)
+<div align="center"> 
+<img src="ressources/image-16.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-Ouvrez la palette `Ctrl + Shift + P` et selectionnez `Forward a Port`
+Ouvrez la palette `Ctrl + Shift + P` et sélectionnez `Forward a Port`
 
-![alt text](ressources/image-17.png)
+<div align="center"> 
+<img src="ressources/image-17.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-Rentrez le numero du port utilise par Live Server. Dans ce cas il s'agit du port 5500.
+Rentrez le numéro du port utilisé par Live Server. Dans ce cas il s'agit du port 5500.
 
-![alt text](ressources/image-18.png)
+<div align="center"> 
+<img src="ressources/image-18.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-![alt text](ressources/image-19.png)
+<div align="center"> 
+<img src="ressources/image-19.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-Authorisez la redirection de ports au nom du compte que vous venez de connecter
+Autorisez la redirection de ports au nom du compte que vous venez de connecter.
 
-![alt text](ressources/image-20.png)
+<div align="center"> 
+<img src="ressources/image-20.png" alt="gh-pages settings done" width="75%" />
+</div>
 
 Ouvrez la redirection de votre port.
 
-![alt text](ressources/image-21.png)
+<div align="center"> 
+<img src="ressources/image-21.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-![alt text](ressources/image-22.png)
+<div align="center"> 
+<img src="ressources/image-22.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-Microsoft va vous informer qu'ils vont vous diriger vers une page en cours de devolppement.
+Microsoft va vous informer qu'ils vont vous diriger vers une page en cours de développement.
 
-![alt text](ressources/image-23.png)
+<div align="center"> 
+<img src="ressources/image-23.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-Vous pouvez constater que vous avez acces a votre site web au travers d'une addresse `devtunnels.ms`.
+Vous pouvez constater que vous avez accès à votre site web au travers d'une adresse `devtunnels.ms`.
 
-D'ailleurs, si vous changez votre page web dans VSCode et que vous sauvegarder, vous verrez que les changements se font directement dans votre page web, prouvant qu'elle est bien fournie par Live Server. (Il est possible que vous ayez besoin de rafraichir la page une fois pour que la synchronisation Live Server se mette bien en place).
+D'ailleurs, si vous changez votre page web dans VSCode et que vous sauvegardez, vous verrez que les changements se font directement dans votre page web, prouvant qu'elle est bien fournie par Live Server. (Il est possible que vous ayez besoin de rafraîchir la page une fois pour que la synchronisation Live Server se mette bien en place).
 
-Pour l'ouvrir sur votre telephone vous pouvez tout simplement scanner le QR present lors de l'ouverture de la page sur ordinateur.
+Pour l'ouvrir sur votre téléphone vous pouvez tout simplement scanner le QR présent lors de l'ouverture de la page sur ordinateur.
 
-Cependant ce tunnel n'acceptera que vous, au travers de votre compte github, donc il faut aussi se logger sur son telephone.
+Cependant ce tunnel n'acceptera que vous, au travers de votre compte GitHub, donc il faut aussi se loguer sur son téléphone.
 
-![alt text](ressources/image-24.png)
+<div align="center"> 
+<img src="ressources/image-24.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-<!-- // TODO deploy the dissmissable QR code so it's a JS one-liner -->
+<!-- // TODO deploy the dismissable QR code so it's a JS one-liner -->
 
   <!-- Vous pouvez maintenant le tester sur votre smartphone. Il vous suffit de vous rendre sur la page que vous venez d'ouvrir.
 
-  Pour cela vous pouvez cliquer sur l'icône "lien" en haut à droite à côté de l'icône pour ouvrir dans une nouvelle fenêtre. Scannez le qr code et vous voilà avec la page chargée sur votre téléphone.
+  Pour cela vous pouvez cliquer sur l'icône "lien" en haut à droite à côté de l'icône pour ouvrir dans une nouvelle fenêtre. Scannez le QR code et vous voilà avec la page chargée sur votre téléphone.
 
   <div align="center"> 
   <img src="ressources/fbs_qr_of_page.JPG" alt="command palette" width="75%" />
@@ -598,23 +633,29 @@ Cependant ce tunnel n'acceptera que vous, au travers de votre compte github, don
 
 Vous pouvez ensuite répéter ces opérations en changeant le code, et en actualisant la page.
 
-Essayer par exemple de changer le texte, sa couleur, sa taille, sa position etc. -->
+Essayez par exemple de changer le texte, sa couleur, sa taille, sa position etc. -->
 
 # Étape 7 : Publier l'application
 
 Allez sur la page "Code" de votre projet GitHub et cliquez sur `Add file > Upload files`
 
-![alt text](ressources/image-29.png)
+<div align="center"> 
+<img src="ressources/image-29.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-Ouvrez le dossier de vontre projet depuis votre explorateur de fichiers ou votre Finder.
+Ouvrez le dossier de votre projet depuis votre explorateur de fichiers ou votre Finder.
 
-Si vous avez du mal a le trouver, vous pouvez faire un clic droit sur un fichier depuis VSCode et selectionner `Reveal in File Explorer` ou `Reveal in Finder`.
+Si vous avez du mal à le trouver, vous pouvez faire un clic droit sur un fichier depuis VSCode et sélectionner `Reveal in File Explorer` ou `Reveal in Finder`.
 
-![alt text](ressources/image-30.png)
+<div align="center"> 
+<img src="ressources/image-30.png" alt="gh-pages settings done" width="75%" />
+</div>
 
-Et transferez tout vos fichiers. Ce n'est pas elegant et ca ne marchera passer une certaine taille de projet mais pour le moment c'est ok.
+Et transférez tous vos fichiers. Ce n'est pas élégant et ça ne marchera pas passé une certaine taille de projet mais pour le moment c'est ok.
 
-![alt text](ressources/image-31.png)
+<div align="center"> 
+<img src="ressources/image-31.png" alt="gh-pages settings done" width="75%" />
+</div>
 
 Puis cliquez sur "Commit changes"
 
@@ -628,9 +669,9 @@ Note : Ce tutoriel est une introduction de base. Pour approfondir vos connaissan
 
 Notre but est de programmer notre sticker RFID pour que lorsque nous approchons notre téléphone, celui-ci va nous proposer d'ouvrir la page web hébergeant notre projet.
 
-Pour cela nous allons utiliser NFCTools qui est gratuit et qui est disponible pour [Android](https://play.google.com/store/apps/details?id=com.wakdev.wdnfc&hl=fr) ou [iOS](https://apps.apple.com/fr/app/nfc-tools/id1252962749)?.
+Pour cela nous allons utiliser NFC Tools qui est gratuit et qui est disponible pour [Android](https://play.google.com/store/apps/details?id=com.wakdev.wdnfc&hl=fr) ou [iOS](https://apps.apple.com/fr/app/nfc-tools/id1252962749).
 
-- Choisir l'onglet "Ecrire" et sélectionner "ajouter un enregistrement"
+- Choisir l'onglet "Écrire" et sélectionner "ajouter un enregistrement"
   <div align="center"> 
   <img src="ressources/NFCTools_ecrire.png" alt=" " width="75%"/>
   </div>
@@ -642,11 +683,11 @@ Pour cela nous allons utiliser NFCTools qui est gratuit et qui est disponible po
   <div align="center"> 
   <img src="ressources/NFCTools_url+gh_pages.png" alt=" " width="75%"/>
   </div>
-- Vous pouvez maintenant cliquer sur le bouton "Ecrire" sous le champ "Plus d'options"
+- Vous pouvez maintenant cliquer sur le bouton "Écrire" sous le champ "Plus d'options"
   <div align="center"> 
   <img src="ressources/NFCTools_enregistrer.png" alt=" " width="75%"/>
   </div>
-- Vous devrier voir cet écran vous demandant d'approcher votre smartphone du sticker.
+- Vous devriez voir cet écran vous demandant d'approcher votre smartphone du sticker.
   <div align="center"> 
   <img src="ressources/NFCTools_approcher.png" alt=" " width="75%"/>
   </div>
@@ -656,7 +697,7 @@ Pour cela nous allons utiliser NFCTools qui est gratuit et qui est disponible po
   </div>
 
 Normalement c'est bon !
-Vous pouvez fermer NFCTools et tester !
+Vous pouvez fermer NFC Tools et tester !
 
 # Pour aller plus loin ...
 
@@ -678,19 +719,19 @@ Vous pouvez télécharger un zip avec : une image, un modèle 3D et une vidéo [
 
 ### Les formats d'assets
 
-Les assets sont des fichiers qui peuvent être utilisés dans votre application, cela peut-être : des images, des modèles 3D, des sons, des vidéos.
+Les assets sont des fichiers qui peuvent être utilisés dans votre application, cela peut être : des images, des modèles 3D, des sons, des vidéos.
 
-Nous sommes dans un contexte web du coup il faut que ces fichiers soient légers pour ce charger vite et optimisés.
+Nous sommes dans un contexte web du coup il faut que ces fichiers soient légers pour se charger vite et optimisés.
 
 - prévoyez des images et vidéos dans une résolution 1920x1080 pixels maximum
-  - pour les vidéos encodés en H.264 et au format mp4
-  - pour les images au format png ou jpeg.
+  - pour les vidéos encodées en H.264 et au format mp4
+  - pour les images au format PNG ou JPEG.
 
-- pour les 3D cela sera des modèles 3D au format glb (le format du web), exportable depuis blender.
+- pour les 3D cela sera des modèles 3D au format GLB (le format du web), exportable depuis Blender.
 
-Vos fichiers ne doivent pas faire plus de 5mo (même si pour une image c'est déjà énorme).
+Vos fichiers ne doivent pas faire plus de 5 Mo (même si pour une image c'est déjà énorme).
 
-Vous pourrez trouver un pack d'asset à cette adresse :
+Vous pourrez trouver un pack d'assets à cette adresse :
 https://github.com/b2renger/microprojetar/releases/download/v1.1/assets.zip
 
 ### Ajouter des fichiers dans VSCode
@@ -709,25 +750,25 @@ Vous pouvez ensuite déplacer des fichiers dans ce nouveau dossier - évitez les
   <img src="ressources/image-28.png" alt=" " width="75%"/>
 </div>
 
-Si vous avez importé tous les assets du fichiers zip, cela devrait ressembler à cela
+Si vous avez importé tous les assets du fichier zip, cela devrait ressembler à cela :
 
 <div align="center"> 
-  <img src="ressources/image-27.png " alt=" " width="75%"/>
+  <img src="ressources/image-27.png" alt=" " width="75%"/>
 </div>
 
-Maintenant il faut charger les fichiers dans notre scene A-Frame.
+Maintenant il faut charger les fichiers dans notre scène A-Frame.
 
 ### Les charger dans notre scène
 
-Chaque type de fichier a mode de chargement différent. Cela se fait entre les balises <a-scene> ... et </a-scene>
+Chaque type de fichier a un mode de chargement différent. Cela se fait entre les balises `<a-scene>` ... et `</a-scene>`
 
-Notez bien qu'il faut adapter ces nouveaux éléments au nom de nos fichiers
+Notez bien qu'il faut adapter ces nouveaux éléments au nom de nos fichiers :
 
 - Dans le paramètre "src", nous chargeons le fichier nommé "nom_du_fichier.png" qui est rangé dans le dossier asset.
-- Dans le paramètre id nous choisissons un alias qui nous permettra de réferencer ce fichier sans avoir à retapper son nom.
+- Dans le paramètre "id" nous choisissons un alias qui nous permettra de référencer ce fichier sans avoir à retaper son nom.
 
 Pour les images :
-Nous chargeons le fichier logo_ecole_1_coul_defonce_noir.png qui est rangé dans le dossier asset.
+Nous chargeons le fichier `logo_ecole_1_coul_defonce_noir.png` qui est rangé dans le dossier asset.
 
 ```html
 <a-assets>
@@ -736,7 +777,7 @@ Nous chargeons le fichier logo_ecole_1_coul_defonce_noir.png qui est rangé dans
 ```
 
 Pour les modèles 3D :
-Nous chargeons le fichier plant_modelling.glb qui est rangé dans le dossier asset.
+Nous chargeons le fichier `plant_modelling.glb` qui est rangé dans le dossier asset.
 
 ```html
 <a-assets>
@@ -745,7 +786,7 @@ Nous chargeons le fichier plant_modelling.glb qui est rangé dans le dossier ass
 ```
 
 Pour les vidéos :
-Nous chargeons le fichier video qui est rangé dans le dossier asset.
+Nous chargeons le fichier vidéo qui est rangé dans le dossier asset.
 
 ```html
 <a-assets>
@@ -856,18 +897,18 @@ Pensez à adapter le paramètre scale en fonction des unités d'export de votre 
 
 ### Vidéo (le plus compliqué)
 
-Dans cet exemple très complexe, nous ajoutons un script javascript dans le head de la page.
+Dans cet exemple très complexe, nous ajoutons un script JavaScript dans le head de la page.
 
-Ce script permet de gérer la lecture automatique de la vidéo, quand le marqueur est détecté. Malgré cela ne marche pas à tous les coups (on parle bien ici de Safari et iOS...)
+Ce script permet de gérer la lecture automatique de la vidéo, quand le marqueur est détecté. Malgré cela, cela ne marche pas à tous les coups (on parle bien ici de Safari et iOS...)
 
-Il permet aussi de créer un chromakey, c'est à dire de rendre une couleur transparente (par exemple un fond vert, au hasard ;))
+Il permet aussi de créer un chromakey, c'est-à-dire de rendre une couleur transparente (par exemple un fond vert, au hasard ;))
 
 Bref il y a beaucoup de code au début !
 
-Pensez quand même à changer les noms de fichiers et les ids pour qu'il correspondent à vos fichiers.
+Pensez quand même à changer les noms de fichiers et les ids pour qu'ils correspondent à vos fichiers.
 
 <div align="center"> 
-  <img src="ressources/video_change_name.png " alt=" " width="100%"/>
+  <img src="ressources/video_change_name.png" alt=" " width="100%"/>
 </div>
 
 Il faudra aussi penser à l'aspect ratio comme pour les images avec les paramètres 'width' et 'height' de l'élément.

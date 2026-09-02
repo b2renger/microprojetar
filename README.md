@@ -22,7 +22,7 @@ Ce petit projet comprend aussi la réalisation d'une "étiquette" / "porte-clé"
 Nous allons utiliser différents outils gratuits :
 
 - GitHub : pour versionner votre code et héberger gratuitement votre projet.
-- Firebase Studio : qui est un IDE (integrated development environment) qui permet d'écrire du code et qui se connecte à GitHub pour hiérarchiser les changements dans notre code.
+- Visual Studio Code : qui est un IDE (integrated development environment) qui permet d'écrire du code et qui se connecte à GitHub pour hiérarchiser les changements dans notre code.
 - NFC Tools : qui est une application pour Android ou iOS et qui nous permettra d'écrire de l'information sur notre sticker RFID.
 
 # Prérequis
@@ -31,7 +31,7 @@ Nous allons utiliser différents outils gratuits :
 - avoir un compte Gmail
 
 - Un ordinateur
-- Un éditeur de code, notre outil sera : [Firebase Studio](https://studio.firebase.google.com)
+- Un éditeur de code, notre outil sera : [Visual Studio Code](https://code.visualstudio.com/)
 - Un navigateur web (Chrome, Firefox...)
 - Un smartphone avec un navigateur web (Chrome, Firefox...)
 
@@ -141,7 +141,7 @@ Téléchargez votre projet :
 Dézippez le projet, ce qui devrait nous donner un dossier du même nom.
 
 <div align="center"> 
-<img src="ressources/image-34.png" alt="gh-pages settings done" width="75%" />
+<img src="ressources/dezip_windows.png" alt="gh-pages settings done" width="75%" />
 </div>
 
 Vérifiez que vous n'avez pas un dossier portant le nom du projet à L'INTÉRIEUR du dossier dézippé, si c'est le cas le projet est le dossier intérieur.
@@ -300,7 +300,7 @@ En théorie Firebase Studio devrait se recharger pour prendre en compte les chan
 Créer un fichier nommé **"index.html"**.
 
 <div align="center"> 
-<img src="ressources/image-32.png" alt="create a new file in Firebase Studio" width="75%" />
+<img src="ressources/image-32.png" alt="create a new file in VSCode" width="75%" />
 </div>
 
 Ajouter le code HTML : Copiez et collez le code HTML suivant dans votre fichier index.html :
@@ -519,7 +519,7 @@ Démarrez l'extension Live Server :
 
 Votre site va automatiquement s'ouvrir dans votre navigateur web par défaut.
 
-# Étape X : Tester son site depuis son téléphone
+# Étape 7 : Tester son site depuis son téléphone
 
 Vous pourrez constater (sauf si vous êtes sur Safari) que l'adresse de votre page est `http://127.0.0.1:5500/index.html`
 
@@ -635,7 +635,7 @@ Vous pouvez ensuite répéter ces opérations en changeant le code, et en actual
 
 Essayez par exemple de changer le texte, sa couleur, sa taille, sa position etc. -->
 
-# Étape 7 : Publier l'application
+# Étape 8 : Publier l'application
 
 Allez sur la page "Code" de votre projet GitHub et cliquez sur `Add file > Upload files`
 
@@ -665,7 +665,7 @@ Puis cliquez sur "Commit changes"
 
 Note : Ce tutoriel est une introduction de base. Pour approfondir vos connaissances, consultez la documentation officielle d'A-Frame et AR.js.
 
-# Étape 8 : Encoder le sticker RFID
+# Étape 9 : Encoder le sticker RFID
 
 Notre but est de programmer notre sticker RFID pour que lorsque nous approchons notre téléphone, celui-ci va nous proposer d'ouvrir la page web hébergeant notre projet.
 

@@ -306,39 +306,38 @@ Créer un fichier nommé **"index.html"**.
 Ajouter le code HTML : Copiez et collez le code HTML suivant dans votre fichier index.html :
 
 ```HTML
-<!DOCTYPE html>
+<!doctype html>
 <html>
 
 <head>
-  <title>Ma première app AR</title>
-  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <title>MicroProjetAR</title>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js">
+    </script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script type="module" src="https://raw.githack.com/b2renger/microprojetar/main/lib/qrTunnel.js"></script>
+
 </head>
 
-<body>
+
+<body style="margin : 0px; overflow: hidden;">
     <a-scene embedded
-    arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best ; changeMatrixMode: modelViewMatrix;"
-    renderer="sortObjects: true; antialias: true; colorManagement: true; logarithmicDepthBuffer: true;"
-
-    vr-mode-ui="enabled: false"
-
-    smooth=" true" smoothCount="5" smoothTolerance=".05" smoothThreshold="5"
-
-    sourceWidth="800" sourceHeight="600" displayWidth="1280" displayHeight="720">
-
+        arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best ; changeMatrixMode: modelViewMatrix;"
+        vr-mode-ui="enabled: false"
+        renderer="sortObjects: true; antialias: true; colorManagement: true; physicallyCorrectLights; logarithmicDepthBuffer: true;"
+        smooth=" true" smoothCount="5" smoothTolerance=".05" smoothThreshold="5" sourceWidth="800" sourceHeight="600"
+        displayWidth="1280" displayHeight="720">
 
         <a-marker type='barcode' value='0'>
-
-            <a-text value="Hello !"
-            side="double" position = "0 0 -1" rotation="270 0 0"
-            width="8"
-            color="red" align="center" >
+            <a-text value="Hello !" side="double" position="0 0 -1" rotation="270 0 0" width="8" color="red"
+                align="center">
             </a-text>
-
         </a-marker>
 
         <a-entity camera></a-entity>
-  </a-scene>
+
+    </a-scene>
 </body>
 </html>
 ```
@@ -423,6 +422,16 @@ Dans la partie `<head>`, nous ajoutons :
   ```html
   <script src="https://raw.githubusercontent.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
   ```
+
+- la _console Eruda_ : Il s'agit un petit bouton qui se mettra en bas à droite de votre écran et qui nous permettra de voir les messages d'erreur sur votre téléphone.
+```html
+<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+```
+
+- la _Bibliothèque qrTunnel_ : C'est une fonctionnalité qui affichera un QR code pour facilement ouvrir la page web sur votre téléphone. Le QR code ne s'affichera que si votre écran est grand et que la page est bien exposée au travers d'une redirection de ports comme on le verra un peu plus tard.
+```html
+<script type="module" src="https://raw.githack.com/b2renger/microprojetar/main/lib/qrTunnel.js"></script>
+```
 
 Dans la partie `<body>`, et c'est ici que tout se joue pour le contenu visible par l'utilisateur. Nous ajoutons :
 

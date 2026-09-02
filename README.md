@@ -459,6 +459,7 @@ Dans la partie `<body>`, et c'est ici que tout se joue pour le contenu visible p
   Remarquez que dans la balise ouvrante `<a-scene>` nous ajoutons beaucoup d'options (qui s'appellent attributs en HTML) pour configurer la manière dont la scène va s'afficher.
 
   <details > <summary> <b>&#128161; les détails des options de configuration de l'attribut arjs</b> </summary>
+
   - *embedded* : Cet attribut indique à A-Frame d'intégrer la scène dans la page HTML.
   - _arjs_ : Cet attribut configure AR.js
     - _sourceType: webcam_ : Utilise la webcam de l'appareil comme source vidéo.
@@ -469,6 +470,7 @@ Dans la partie `<body>`, et c'est ici que tout se joue pour le contenu visible p
     - _vr-mode-ui="enabled: false"_ : Désactive l'interface utilisateur du mode VR.
     - _renderer_. Configure le rendu de la scène avec des options pour le tri des objets, l'antialiasing, la gestion des couleurs, etc.
     - _smooth_ : Active le lissage du mouvement de la caméra.
+
     </details>
     </br>
 
@@ -498,6 +500,7 @@ Dans la partie `<body>`, et c'est ici que tout se joue pour le contenu visible p
   ```
 
     <details > <summary> <b>&#128161; les détails des attributs de la balise a-text</b> </summary>
+
   - *value* : Le texte à afficher.
   - *side=double* : permet d'afficher le texte quel que soit l'angle sous lequel on le regarde.
   - *position="0 0 -1"* : la position xyz du centre du texte par rapport au centre du marqueur.
@@ -505,6 +508,7 @@ Dans la partie `<body>`, et c'est ici que tout se joue pour le contenu visible p
   - *width="8"* : la largeur du texte.
   - *color="red"* : la couleur du texte.
   - *align="center"* : l'alignement du texte.
+  
   </details>
   </br>
 

@@ -532,7 +532,7 @@ Démarrez l'extension Live Server :
 
 Votre site va automatiquement s'ouvrir dans votre navigateur web par défaut.
 
-# Étape 7 : Tester son site depuis son téléphone
+<!-- # Étape 7 : Tester son site depuis son téléphone
 
 Vous pourrez constater (sauf si vous êtes sur Safari) que l'adresse de votre page est `http://127.0.0.1:5500/index.html`
 
@@ -632,23 +632,9 @@ Cependant ce tunnel n'acceptera que vous, au travers de votre compte GitHub, don
 
 <div align="center"> 
 <img src="ressources/image-24.png" alt="gh-pages settings done" width="75%" />
-</div>
+</div> -->
 
-<!-- // TODO deploy the dismissable QR code so it's a JS one-liner -->
-
-  <!-- Vous pouvez maintenant le tester sur votre smartphone. Il vous suffit de vous rendre sur la page que vous venez d'ouvrir.
-
-  Pour cela vous pouvez cliquer sur l'icône "lien" en haut à droite à côté de l'icône pour ouvrir dans une nouvelle fenêtre. Scannez le QR code et vous voilà avec la page chargée sur votre téléphone.
-
-  <div align="center"> 
-  <img src="ressources/fbs_qr_of_page.JPG" alt="command palette" width="75%" />
-  </div>
-
-Vous pouvez ensuite répéter ces opérations en changeant le code, et en actualisant la page.
-
-Essayez par exemple de changer le texte, sa couleur, sa taille, sa position etc. -->
-
-# Étape 8 : Publier l'application
+# Étape 7 : Publier l'application
 
 Allez sur la page "Code" de votre projet GitHub et cliquez sur `Add file > Upload files`
 
@@ -678,7 +664,7 @@ Puis cliquez sur "Commit changes"
 
 Note : Ce tutoriel est une introduction de base. Pour approfondir vos connaissances, consultez la documentation officielle d'A-Frame et AR.js.
 
-# Étape 9 : Encoder le sticker RFID
+# Étape 8 : Encoder le sticker RFID
 
 Notre but est de programmer notre sticker RFID pour que lorsque nous approchons notre téléphone, celui-ci va nous proposer d'ouvrir la page web hébergeant notre projet.
 

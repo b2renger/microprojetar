@@ -812,40 +812,32 @@ Les exemples fournis ci-dessous sont complets et fonctionnels, vous pouvez les c
 Vous aurez besoin d'adapter la largeur "width" et la hauteur "height" de l'image selon l'aspect ratio de votre image pour qu'elle ne soit pas déformée.
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <title>Ma première app AR</title>
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  </head>
 
-  <body>
-    <a-scene
-      embedded
-      arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best ; changeMatrixMode: modelViewMatrix;"
-      renderer="sortObjects: true; antialias: true; colorManagement: true; logarithmicDepthBuffer: true;"
-      vr-mode-ui="enabled: false"
-      smooth=" true"
-      smoothCount="5"
-      smoothTolerance=".05"
-      smoothThreshold="5"
-      sourceWidth="800"
-      sourceHeight="600"
-      displayWidth="1280"
-      displayHeight="720"
-    >
-      <a-assets>
-        <img id="img1" src="./assets/logo_ecole_1_coul_defonce_noir.png" />
-      </a-assets>
+<head>
+    <title>MicroProjetAR</title>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js">
+    </script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js">
+    </script>
+</head>
 
-      <a-marker type="barcode" value="0">
-        <a-image src="#img1" rotation="270 0 0" width="1" height="2"></a-image>
-      </a-marker>
+<body style="margin : 0px; overflow: hidden;">
+    <a-scene embedded
+        arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best ; changeMatrixMode: modelViewMatrix;"
+        vr-mode-ui="enabled: false"
+        renderer="sortObjects: true; antialias: true; colorManagement: true; physicallyCorrectLights; logarithmicDepthBuffer: true;"
+        smooth=" true" smoothCount="5" smoothTolerance=".05" smoothThreshold="5" sourceWidth="800" sourceHeight="600"
+        displayWidth="1280" displayHeight="720">
 
-      <a-entity camera></a-entity>
+        <a-marker type='barcode' value='0'>
+            <a-image src="another-image.png" width="1" height="1"></a-image>
+        </a-marker>
+
+        <a-entity camera></a-entity>
     </a-scene>
-  </body>
+</body>
 </html>
 ```
 
@@ -877,15 +869,9 @@ Pensez à adapter le paramètre scale en fonction des unités d'export de votre 
       displayWidth="1280"
       displayHeight="720"
     >
-      <a-assets>
-        <a-asset-item
-          id="model"
-          src="./assets/plant_modelling.glb"
-        ></a-asset-item>
-      </a-assets>
 
       <a-marker type="barcode" value="0">
-        <a-entity scale=".1 .1 .1" gltf-model="#model"></a-entity>
+        <a-entity scale=".1 .1 .1" gltf-model="./assets/plant_modelling.glb"></a-entity>
       </a-marker>
 
       <a-entity camera></a-entity>

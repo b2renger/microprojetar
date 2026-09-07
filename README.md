@@ -151,11 +151,25 @@ Ouvrez-le dans VSCode en cliquant sur `File > Open Folder`
 Acceptez d'ouvrir le projet dans VSCode, après tout c'est pour ça qu'on vient de le télécharger.
 
 <div align="center"> 
-<img src="ressources/image-6.png" alt="gh-pages settings done" width="75%" />
+<img src="ressources/image-33.png" alt="" width="75%" />
+</div>
+
+Il est possible que VSCode vous demande si oui ou non vous faites confiance au projet, en sachant qu'il est bien a nous et qu'il est vide, dites oui puisqu'on a besoin que VSCode soit en mode complet en non restreint.
+
+Alternativement, il est possible que VSCode ne vous propose rien et demarre directement en mode restreint, si c'est le cas vous verrez ce petit ruban en haut de votre fenetre VSCode.
+
+<div align="center"> 
+<img src="ressources/perm_ribbon.png" alt="" width="75%" />
+</div>
+
+Auquel cas, cliquez sur "Manage", acceptez puis fermez.
+
+<div align="center"> 
+<img src="ressources/perm_accept.png" alt="" />
 </div>
 
 <div align="center"> 
-<img src="ressources/image-33.png" alt="gh-pages settings done" width="75%" />
+<img src="ressources/perm_close.png" alt=""/>
 </div>
 
 > [!TIP]
